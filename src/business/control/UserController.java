@@ -15,7 +15,7 @@ public class UserController {
         this.validators = validators;
     }
 
-    public User cadastrarUsuario (Map<UserInput, String> userInput) {
+    public void cadastrarUsuario (Map<UserInput, String> userInput) {
 
         List<String> errors = new ArrayList<>();
 
@@ -27,7 +27,9 @@ public class UserController {
             }
         }
 
-        return new User(userInput.get(UserInput.EMAIL), userInput.get(UserInput.PASSWORD));
+        if (errors.size() == 0) {
+            new User(userInput.get(UserInput.EMAIL), userInput.get(UserInput.PASSWORD));
+        }
     }
 
 }
