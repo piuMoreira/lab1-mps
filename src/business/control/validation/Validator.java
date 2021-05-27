@@ -1,5 +1,9 @@
 package business.control.validation;
 
-public interface Validation {
-    public void validate(String data);
+import business.control.UserInput;
+
+import java.util.Map;
+
+public interface Validator {
+    public String validate(Map<UserInput, String> value);
 }

@@ -1,23 +1,33 @@
 package business.control;
 
-import business.control.validation.Validation;
-import business.model.Usuario;
+import business.control.validation.Validator;
+import business.model.User;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class UserController {
 
-    private final List<Validation> validations;
+    private final List<Validator> validators;
 
-    public UserController(List<Validation> validations) {
-        this.validations = validations;
+    public UserController(List<Validator> validators) {
+        this.validators = validators;
     }
 
-    public void cadastrarUsuario (String email, String password) {
-        // validar os dados
+    public User cadastrarUsuario (Map<UserInput, String> userInput) {
 
-        // criar usuario
-        usuario = new Usuario(email, password);
+        List<String> errors = new ArrayList<>();
+
+        for (Validator validator : this.validators) {
+            String error = validator.validate(userInput);
+
+            if (error != null) {
+                errors.add(error);
+            }
+        }
+
+        return new User(userInput.get(UserInput.EMAIL), userInput.get(UserInput.PASSWORD));
     }
 
 }

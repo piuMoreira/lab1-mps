@@ -4,11 +4,11 @@ import business.control.UserInput;
 
 import java.util.Map;
 
-public class EmailValidator implements Validator {
+public class PasswordValidator implements Validator {
 
     @Override
     public String validate(Map<UserInput, String> value) {
-        String email = value.get(UserInput.EMAIL);
+        String password = value.get(UserInput.PASSWORD);
         return "";
     }
 }
