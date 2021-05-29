@@ -41,14 +41,14 @@ public class UserController {
     public List<String> delete (Map<UserInput, String> userInput) {
         List<String> errors = new ArrayList<>();
 
-        EmailValidator emailValidator = new EmailValidator();
-        emailValidator.validate(userInput);
+        try {
+            EmailValidator emailValidator = new EmailValidator();
+            emailValidator.validate(userInput);
 
-        if (errorsValidation.isEmpty()) {
-            errors.addAll(errorsValidation);
+            //TODO: Passar o email para o infra para deletar (infra deve retornar erro caso o email não exista na base de dados)
+        } catch (CustomError ex) {
+            errors.add(ex.getMessage());
         }
-
-        //TODO: Passar o email para o infra para deletar (infra deve retornar erro caso o email não exista na base de dados)
 
         return errors;
     }
