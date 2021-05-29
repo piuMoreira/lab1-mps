@@ -1,5 +1,6 @@
 package business.control;
 
+import business.control.validation.EmailValidator;
 import business.control.validation.Validator;
 import business.model.User;
 
@@ -24,7 +25,7 @@ public class UserController {
         for (Validator validator : this.validators) {
             List<String> errorsValidation = validator.validate(userInput);
 
-            if (errorsValidation.isEmpty()) {
+            if (!errorsValidation.isEmpty()) {
                 errors.addAll(errorsValidation);
             }
         }
@@ -41,12 +42,19 @@ public class UserController {
         return errors;
     }
 
-    public void delete (String email) {
+    public List<String> delete (Map<UserInput, String> userInput) {
         List<String> errors = new ArrayList<>();
 
-        //TODO: Verificar se o email existe na base de dados
+        EmailValidator emailValidator = new EmailValidator();
+        List<String> errorsValidation = emailValidator.validate(userInput);
 
+        if (errorsValidation.isEmpty()) {
+            errors.addAll(errorsValidation);
+        }
 
+        //TODO: Passar para o infra, para deletar (infra deve retornar erro caso o email não exista na base de dados)
+
+        return errors;
     }
 
 }
