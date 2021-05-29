@@ -22,21 +22,17 @@ public class UserController {
 
         List<String> errors = new ArrayList<>();
 
-        for (Validator validator : this.validators) {
-            List<String> errorsValidation = validator.validate(userInput);
-
-            if (!errorsValidation.isEmpty()) {
-                errors.addAll(errorsValidation);
+        try {
+            for (Validator validator : this.validators) {
+                validator.validate(userInput);
             }
-        }
 
-        if (errors.isEmpty()) {
             User user = new User(userInput.get(UserInput.EMAIL), userInput.get(UserInput.PASSWORD));
             this.users.add(user);
 
             //TODO: chamar classe da infra passando a lista de usuários
-
-            return errors;
+        } catch (CustomError ex) {
+            errors.add(ex.getMessage());
         }
 
         return errors;
@@ -46,7 +42,7 @@ public class UserController {
         List<String> errors = new ArrayList<>();
 
         EmailValidator emailValidator = new EmailValidator();
-        List<String> errorsValidation = emailValidator.validate(userInput);
+        emailValidator.validate(userInput);
 
         if (errorsValidation.isEmpty()) {
             errors.addAll(errorsValidation);
