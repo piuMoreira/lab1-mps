@@ -31,7 +31,7 @@ public class UserController {
             this.users.add(user);
 
             //TODO: chamar classe da infra passando a lista de usuários
-        } catch (CustomError ex) {
+        } catch (CustomException ex) {
             errors.add(ex.getMessage());
         }
 
@@ -46,7 +46,7 @@ public class UserController {
             emailValidator.validate(userInput);
 
             //TODO: Passar o email para o infra para deletar (infra deve retornar erro caso o email não exista na base de dados)
-        } catch (CustomError ex) {
+        } catch (CustomException ex) {
             errors.add(ex.getMessage());
         }
 
