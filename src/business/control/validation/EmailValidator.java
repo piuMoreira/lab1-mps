@@ -9,23 +9,19 @@ import java.util.Map;
 public class EmailValidator implements Validator {
 
     @Override
-    public List<String> validate(Map<UserInput, String> value) {
+    public void validate(Map<UserInput, String> value) {
         String email = value.get(UserInput.EMAIL);
 
-        List<String> errorValidation = new ArrayList<>();
-
         if (email.length() == 0) {
-            errorValidation.add("Por favor, insira seu email");
+            throw new MissingParam("Por favor, insira seu email");
         }
 
         if (email.length() > 12) {
-            errorValidation.add("O email deve ter no máximo 12 caracteres");
+            throw new InvalidParam("O email deve ter no máximo 12 caracteres");
         }
 
         if (email.matches(".*\\d")) {
-            errorValidation.add("O email não deve conter números");
+            throw new InvalidParam("O email não deve conter números");
         }
-
-        return errorValidation;
     }
 }

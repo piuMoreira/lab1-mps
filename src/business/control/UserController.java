@@ -52,7 +52,7 @@ public class UserController {
             errors.addAll(errorsValidation);
         }
 
-        //TODO: Passar para o infra, para deletar (infra deve retornar erro caso o email não exista na base de dados)
+        //TODO: Passar o email para o infra para deletar (infra deve retornar erro caso o email não exista na base de dados)
 
         return errors;
     }

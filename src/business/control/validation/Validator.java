@@ -6,5 +6,5 @@ import java.util.List;
 import java.util.Map;
 
 public interface Validator {
-    public List<String> validate(Map<UserInput, String> value);
+    public void validate(Map<UserInput, String> value);
 }
