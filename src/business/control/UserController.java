@@ -20,14 +20,14 @@ public class UserController {
         List<String> errors = new ArrayList<>();
 
         for (Validator validator : this.validators) {
-            String error = validator.validate(userInput);
+            List<String> errorsValidation = validator.validate(userInput);
 
-            if (error != null) {
-                errors.add(error);
+            if (errorsValidation.isEmpty()) {
+                errors.addAll(errorsValidation);
             }
         }
 
-        if (errors.size() == 0) {
+        if (errors.isEmpty()) {
             new User(userInput.get(UserInput.EMAIL), userInput.get(UserInput.PASSWORD));
             return errors;
         }
