@@ -10,12 +10,14 @@ import java.util.Map;
 public class UserController {
 
     private final List<Validator> validators;
+    private final List<User> users;
 
     public UserController(List<Validator> validators) {
         this.validators = validators;
+        this.users = new ArrayList<>();
     }
 
-    public List<String> cadastrarUsuario (Map<UserInput, String> userInput) {
+    public List<String> add (Map<UserInput, String> userInput) {
 
         List<String> errors = new ArrayList<>();
 
@@ -28,11 +30,23 @@ public class UserController {
         }
 
         if (errors.isEmpty()) {
-            new User(userInput.get(UserInput.EMAIL), userInput.get(UserInput.PASSWORD));
+            User user = new User(userInput.get(UserInput.EMAIL), userInput.get(UserInput.PASSWORD));
+            this.users.add(user);
+
+            //TODO: chamar classe da infra passando a lista de usuários
+
             return errors;
         }
 
         return errors;
+    }
+
+    public void delete (String email) {
+        List<String> errors = new ArrayList<>();
+
+        //TODO: Verificar se o email existe na base de dados
+
+
     }
 
 }
