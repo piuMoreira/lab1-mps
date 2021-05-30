@@ -1,9 +1,9 @@
 package business.control.validation;
 
-import business.control.helpers.UserInput;
-
 import java.util.Map;
 
+import business.control.helpers.UserInput;
+
 public interface Validator {
-    public void validate(Map<UserInput, String> value);
+    public void validate(Map<UserInput, String> value) throws Exception;
 }

@@ -1,10 +1,10 @@
 package business.control;
 
-import business.model.News;
-import business.model.User;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import business.model.News;
+import business.model.User;
 
 public class NewsController {
 

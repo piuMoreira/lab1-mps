@@ -1,13 +1,14 @@
 package business.control.validation;
 
-import business.control.helpers.UserInput;
-
 import java.util.Map;
+
+import business.control.helpers.UserInput;
+import business.control.validation.exceptions.InvalidParamException;
 
 public class PasswordValidator implements Validator {
 
     @Override
-    public void validate(Map<UserInput, String> value) throws CustomException {
+    public void validate(Map<UserInput, String> value) throws Exception {
         String password = value.get(UserInput.PASSWORD);
 
         if (password.length() < 8) {

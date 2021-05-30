@@ -1,13 +1,13 @@
 package business.control;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import business.control.helpers.UserInput;
 import business.control.validation.EmailValidator;
 import business.control.validation.Validator;
 import business.model.User;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 public class UserController {
 
