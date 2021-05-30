@@ -1,8 +1,7 @@
 package business.control.validation;
 
-import business.control.UserInput;
+import business.control.helpers.UserInput;
 
-import java.util.List;
 import java.util.Map;
 
 public interface Validator {

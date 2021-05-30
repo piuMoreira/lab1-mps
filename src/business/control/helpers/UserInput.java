@@ -1,4 +1,4 @@
-package business.control;
+package business.control.helpers;
 
 public enum UserInput {
     EMAIL,

@@ -1,5 +1,6 @@
 package business.control;
 
+import business.control.helpers.UserInput;
 import business.control.validation.EmailValidator;
 import business.control.validation.Validator;
 import business.model.User;
@@ -10,8 +11,8 @@ import java.util.Map;
 
 public class UserController {
 
-    private final List<Validator> validators;
-    private final List<User> users;
+    private List<Validator> validators;
+    private List<User> users;
 
     public UserController(List<Validator> validators) {
         this.validators = validators;
