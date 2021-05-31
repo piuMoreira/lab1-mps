@@ -33,11 +33,11 @@ public abstract class Menu {
     }
 
     public String menuToString() {
-        String options = "";
+        String menuOptions = "";
         for (String opt : this.options) {
-            options.concat(opt + "\n");
+            menuOptions = menuOptions.concat(opt + "\n");
         }
-        return "************************************************\nMENU\n\n" + options + "\n\nOption: ";
+        return "************************************************\nMENU\n\n" + menuOptions + "\n\nOption: ";
     }
 
     public abstract String returnAction();

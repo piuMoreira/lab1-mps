@@ -2,6 +2,7 @@ package view.console;
 
 import java.io.Console;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 public class AppConsole implements IApplicationConsole {
     private Console console;
@@ -19,7 +20,7 @@ public class AppConsole implements IApplicationConsole {
 
     @Override
     public void write(String content) {
-        this.console.writer().write(content);
+        System.out.print(content);
     }
 
     public void flush() {
@@ -31,7 +32,7 @@ public class AppConsole implements IApplicationConsole {
         this.flush();
     }
 
-    public void delay() throws InterruptedException {
-        this.console.wait(2000);
+    public void delay(long seconds) throws InterruptedException {
+        TimeUnit.SECONDS.sleep(seconds);
     }
 }

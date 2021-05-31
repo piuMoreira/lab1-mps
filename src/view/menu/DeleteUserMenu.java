@@ -10,7 +10,7 @@ public class DeleteUserMenu extends Menu {
     public String returnAction() {
         switch (this.getAction()) {
             case 1:
-                return Constants.REMOVE_USER;
+                return Constants.REMOVE_USER_FORM;
             case 2:
                 return Constants.MAIN_MENU;
             default:

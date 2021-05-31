@@ -1,6 +1,7 @@
 package view;
 
 
+import business.control.ControllerFacade;
 import view.console.AppConsole;
 import view.forms.CreateUserForm;
 import view.forms.DeleteUserForm;
@@ -11,6 +12,7 @@ public class View {
     private AppConsole appConsole;
     private int state = 0;
     private Menu menu = new MainMenu();
+    private ControllerFacade controllerFacade = new ControllerFacade();
 
     public View() {
         this.appConsole = new AppConsole();
@@ -43,6 +45,7 @@ public class View {
                     addForm.setPassword(appConsole.read());
 
                     // TODO call controller
+                    controllerFacade.createUser(addForm.getUserInput());
 
                     menu = new MainMenu();
                     break;
@@ -56,6 +59,7 @@ public class View {
                     removeForm.setEmail(appConsole.read());
 
                     // TODO call controller
+                    controllerFacade.deleteUser(removeForm.getUserInput());
 
                     menu = new MainMenu();
                     break;
@@ -69,8 +73,13 @@ public class View {
                     break;
                 default:
                     appConsole.write("\n" + "Invalid Option\n");
-                    appConsole.wait();
+                    try {
+                        appConsole.delay(1);
+                    } catch (Exception e) {
+                        System.out.println(e);
+                    }
             }
         }
+        System.out.println("Program Finished.\n************************************************");
     }
 }

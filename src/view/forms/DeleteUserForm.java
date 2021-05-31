@@ -1,13 +1,22 @@
 package view.forms;
 
+import business.control.helpers.UserInput;
+
+import java.util.Map;
+
 public class DeleteUserForm {
-    private String email;
+    private Map<UserInput, String> userInput;
+
+    public Map<UserInput, String> getUserInput() {
+        return userInput;
+    }
 
     public String getEmail() {
-        return email;
+        return userInput.get(UserInput.EMAIL);
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        this.userInput.put(UserInput.EMAIL, email);
     }
+
 }
