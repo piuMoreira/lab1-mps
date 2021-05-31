@@ -2,6 +2,7 @@ package infra;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -12,6 +13,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import business.model.User;
+import infra.exceptions.FileException;
+import infra.exceptions.InexistentUser;
 
 
 
@@ -22,53 +25,82 @@ public class binaryWriter {
 
 
 
-    public binaryWriter() throws IOException{
+    public binaryWriter() throws Exception{
         String path = "users.bin";
         File file = new java.io.File(path);
-        file.createNewFile();
+        try {
+            file.createNewFile();
+        } catch (IOException e) {
+            throw new FileException("Não foi possível criar o arquivo.", e);
+        }
 
         this.filename = Paths.get(path);
         this.pathname = path;
     }
 
-    public void writeUserList(List<User> users) throws IOException{       
+    public void writeUserList(List<User> users) throws Exception{       
         
         
         for(User user : users){
             
             byte email[] = user.getEmail().getBytes(StandardCharsets.UTF_8);
             byte newline[] = "\n".getBytes(StandardCharsets.UTF_8);
-            Files.write(filename, email, StandardOpenOption.APPEND);
-            Files.write(filename, newline, StandardOpenOption.APPEND);
+            try {
+                Files.write(filename, email, StandardOpenOption.APPEND);
+                Files.write(filename, newline, StandardOpenOption.APPEND);
+            } catch (IOException e) {
+                throw new FileException("Não foi possível escrever no arquivo.", e);
+            }
+            
         }
 
     }
 
-    public void removeUser(String userLogin) throws IOException{
+    public void removeUser(String userLogin) throws Exception {
         int lines = countLines();
-        List<String> out = Files.lines(filename).filter(line -> !line.contains(userLogin)).collect(Collectors.toList());
-        if(out.size() == lines) System.out.println("Oops");
-        else {
-            Files.write(filename, out, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING);
+        List<String> out;
+        try {
+            out = Files.lines(filename).filter(line -> !line.contains(userLogin)).collect(Collectors.toList());
+            if (out.size() == lines)
+                throw new InexistentUser("Usuário não encontrado.");
+            else {
+                Files.write(filename, out, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING);
+            }
+        } catch (IOException e) {
+            throw new FileException("Não foi possível alterar o arquivo.", e);
         }
 
     }
 
-    private int countLines() throws IOException {
+    private int countLines() throws Exception{
         int lines = 0;
 
-        FileInputStream fis = new FileInputStream(pathname);
+        FileInputStream fis;
+        try {
+            fis = new FileInputStream(pathname);
+        } catch (FileNotFoundException e) {
+            throw new FileException("Não foi possível encontrar o arquivo.", e);
+        }
         byte[] buffer = new byte[1024]; // BUFFER_SIZE = 8 * 1024
         int read;
 
-        while ((read = fis.read(buffer)) != -1) {
-            for (int i = 0; i < read; i++) {
-                if (buffer[i] == '\n')
-                    lines++;
+        try {
+            while ((read = fis.read(buffer)) != -1) {
+                for (int i = 0; i < read; i++) {
+                    if (buffer[i] == '\n')
+                        lines++;
+                }
             }
+        } catch (IOException e) {
+            throw new FileException("Não foi possível ler o arquivo.", e);
         }
 
-        fis.close();
+        try {
+            fis.close();
+        } catch (Exception e) {
+            throw new FileException("Não foi possível fechar o arquivo.", e);
+        }
+        
 
         return lines;
     }
