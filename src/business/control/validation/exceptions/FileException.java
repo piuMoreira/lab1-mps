@@ -1,7 +1,7 @@
-package infra.exceptions;
+package business.control.validation.exceptions;
 
 
-public class FileException extends Exception {
+public class FileException extends CustomException {
 
     public FileException(String message){
         super(message);

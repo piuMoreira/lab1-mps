@@ -12,9 +12,9 @@ import java.nio.file.StandardOpenOption;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import business.control.validation.exceptions.FileException;
+import business.control.validation.exceptions.InexistentUserException;
 import business.model.User;
-import infra.exceptions.FileException;
-import infra.exceptions.InexistentUser;
 
 
 
@@ -62,7 +62,7 @@ public class binaryWriter {
         try {
             out = Files.lines(filename).filter(line -> !line.contains(userLogin)).collect(Collectors.toList());
             if (out.size() == lines)
-                throw new InexistentUser("Usuário não encontrado.");
+                throw new InexistentUserException("Usuário não encontrado.");
             else {
                 Files.write(filename, out, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING);
             }
