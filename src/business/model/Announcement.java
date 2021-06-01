@@ -10,7 +10,7 @@ public class Announcement {
     private String title;
     private Date createdAt;
 
-    public Announcement(User createdBy, String title, Date createdAt) throws CustomException {
+    public Announcement(User createdBy, String title, Date createdAt) {
         this.createdBy = createdBy;
         this.title = title;
         this.createdAt = createdAt;
