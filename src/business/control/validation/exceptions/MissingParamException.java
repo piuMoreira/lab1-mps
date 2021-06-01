@@ -1,6 +1,6 @@
 package business.control.validation.exceptions;
 
-public class MissingParamException extends Exception {
+public class MissingParamException extends CustomException {
 
 	public MissingParamException(String msg) {
 		super(msg);

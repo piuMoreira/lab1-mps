@@ -1,6 +1,6 @@
 package business.control.validation.exceptions;
 
-public class InvalidParamException extends Exception {
+public class InvalidParamException extends CustomException {
 
 	public InvalidParamException(String msg) {
 		super(msg);

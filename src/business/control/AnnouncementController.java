@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import business.exceptions.CustomException;
+import business.control.validation.exceptions.CustomException;
 import business.model.Announcement;
 import business.model.User;
 
@@ -26,11 +26,11 @@ public class AnnouncementController {
     public List<String> delete (User createdBy, String title) {
         List<String> errors = new ArrayList<>();
 
-        try {
-            //TODO: Enviar para o infra para ser deletado
-        } catch (CustomException ex) {
-            errors.add(ex.getMessage());
-        }
+//        try {
+//            //TODO: Enviar para o infra para ser deletado
+//        } catch (CustomException ex) {
+//            errors.add(ex.getMessage());
+//        }
 
         return errors;
     }

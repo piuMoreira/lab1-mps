@@ -7,6 +7,7 @@ import java.util.Map;
 import business.control.helpers.UserInput;
 import business.control.validation.EmailValidator;
 import business.control.validation.Validator;
+import business.control.validation.exceptions.CustomException;
 import business.model.User;
 
 public class UserController {

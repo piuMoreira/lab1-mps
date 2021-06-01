@@ -2,13 +2,15 @@ package business.model;
 
 import java.util.Date;
 
+import business.control.validation.exceptions.CustomException;
+
 public class Announcement {
 
     private User createdBy;
     private String title;
     private Date createdAt;
 
-    public Announcement(User createdBy, String title, Date createdAt) {
+    public Announcement(User createdBy, String title, Date createdAt) throws CustomException {
         this.createdBy = createdBy;
         this.title = title;
         this.createdAt = createdAt;
