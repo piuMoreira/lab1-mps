@@ -10,7 +10,11 @@ import business.model.User;
 
 public class AnnouncementController {
 
-    public List<String> add (User createdBy, String title) {
+    public List<String> add (String userEmail, String title) {
+        
+        //TODO: criar a função no findUserByEmail
+        User user = findUserByEmail(userEmail)
+            
         List<String> errors = new ArrayList<>();
 
         try {
@@ -23,7 +27,9 @@ public class AnnouncementController {
         return errors;
     }
 
-    public List<String> delete (User createdBy, String title) {
+    public List<String> delete (String userEmail, String title) {
+        //TODO: criar a função no findUserByEmail
+        User user = findUserByEmail(userEmail)
         List<String> errors = new ArrayList<>();
 
 //        try {
