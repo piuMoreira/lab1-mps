@@ -22,22 +22,22 @@ public class ControllerFacade {
         return userController.delete(userInput);
     }
 
-    public List<String> createNews(User user, String title) {
+    public List<String> createNews(String userEmail, String title) {
         NewsController newsController = this.newsController;
         return newsController.add(user, title);
     }
 
-    public List<String> deleteNews(User user, String title) {
+    public List<String> deleteNews(String userEmail, String title) {
         NewsController newsController = this.newsController;
         return newsController.delete(user, title);
     }
 
-    public List<String> createAnnouncement(User user, String title) {
+    public List<String> createAnnouncement(String userEmail, String title) {
         AnnouncementController announcementController = this.announcementController;
         return announcementController.add(user, title);
     }
 
-    public List<String> deleteAnnouncement(User user, String title) {
+    public List<String> deleteAnnouncement(String userEmail, String title) {
         AnnouncementController announcementController = this.announcementController;
         return announcementController.delete(user, title);
     }
