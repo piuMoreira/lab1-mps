@@ -12,6 +12,11 @@ public class News {
         this.title = title;
     }
 
+    public News() {
+        this.createdBy = new User("", "");
+        this.title = "";
+    }
+
     public String getTitle() {
         return this.title;
     }

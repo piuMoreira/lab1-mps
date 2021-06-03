@@ -1,8 +1,8 @@
 package business.control;
 
-import business.control.helpers.UserInput;
-import business.model.User;
+import business.util.helpers.UserInput;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,22 +24,44 @@ public class ControllerFacade {
 
     public List<String> createNews(String userEmail, String title) {
         NewsController newsController = this.newsController;
-        return newsController.add(userEmail, title);
+
+        Map<UserInput, String> userInput = new HashMap<UserInput, String>() {{
+            put(UserInput.EMAIL, userEmail);
+            put(UserInput.NEWS, title);
+        }};
+
+        return newsController.add(userInput);
     }
 
-    public List<String> deleteNews(String userEmail, String title) {
+    public List<String> deleteNews(String title) {
         NewsController newsController = this.newsController;
-        return newsController.delete(userEmail, title);
+
+        Map<UserInput, String> userInput = new HashMap<UserInput, String>() {{
+            put(UserInput.NEWS, title);
+        }};
+
+        return newsController.delete(userInput);
     }
 
     public List<String> createAnnouncement(String userEmail, String title) {
         AnnouncementController announcementController = this.announcementController;
-        return announcementController.add(userEmail, title);
+
+        Map<UserInput, String> userInput = new HashMap<UserInput, String>() {{
+            put(UserInput.EMAIL, userEmail);
+            put(UserInput.ANNOUNCEMENT, title);
+        }};
+
+        return announcementController.add(userInput);
     }
 
-    public List<String> deleteAnnouncement(String userEmail, String title) {
+    public List<String> deleteAnnouncement(String title) {
         AnnouncementController announcementController = this.announcementController;
-        return announcementController.delete(userEmail, title);
+
+        Map<UserInput, String> userInput = new HashMap<UserInput, String>() {{
+            put(UserInput.ANNOUNCEMENT, title);
+        }};
+
+        return announcementController.delete(userInput);
     }
 
 

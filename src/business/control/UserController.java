@@ -4,16 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import business.control.helpers.UserInput;
+import business.util.helpers.UserInput;
 import business.control.validation.EmailValidator;
 import business.control.validation.Validator;
 import business.control.validation.exceptions.CustomException;
 import business.model.User;
+import infra.binaryWriter;
 
 public class UserController {
 
     private List<Validator> validators;
     private List<User> users;
+    //TODO: inicializar a classe BinaryWriter
 
     public UserController(List<Validator> validators) {
         this.validators = validators;
@@ -28,11 +30,15 @@ public class UserController {
             for (Validator validator : this.validators) {
                 validator.validate(userInput);
             }
+        } catch (CustomException ex) {
+            errors.add(ex.getMessage());
+        }
 
+        try {
             User user = new User(userInput.get(UserInput.EMAIL), userInput.get(UserInput.PASSWORD));
             this.users.add(user);
 
-            //TODO: chamar classe da infra passando a lista de usuários
+            binaryWriter.writeUserList(this.users);
         } catch (CustomException ex) {
             errors.add(ex.getMessage());
         }
@@ -46,8 +52,13 @@ public class UserController {
         try {
             EmailValidator emailValidator = new EmailValidator();
             emailValidator.validate(userInput);
+        } catch (CustomException ex) {
+            errors.add(ex.getMessage());
+        }
 
-            //TODO: Passar o email para o infra para deletar (infra deve retornar erro caso o email não exista na base de dados)
+        try {
+            //TODO: chamar o findUserByEmail antes de remover
+            binaryWriter.removeUser(userInput.get(UserInput.EMAIL));
         } catch (CustomException ex) {
             errors.add(ex.getMessage());
         }

@@ -16,6 +16,12 @@ public class Announcement {
         this.createdAt = createdAt;
     }
 
+    public Announcement() {
+        this.createdBy = new User("", "");
+        this.title = "";
+        this.createdAt = new Date();
+    }
+
     public String getTitle() {
         return this.title;
     }
