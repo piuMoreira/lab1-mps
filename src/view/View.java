@@ -24,15 +24,7 @@ public class View {
             appConsole.write(menu.menuToString());
             menu.parseOption(appConsole.read());
             switch (menu.returnAction()) {
-                case Constants
-                        .ADD_USER:
-                    menu = new AddUserMenu();
-                    break;
-                case Constants
-                        .REMOVE_USER:
-                    menu = new DeleteUserMenu();
-                    break;
-                case Constants.ADD_USER_FORM:
+                case CONSTANTS.ADD_USER_FORM:
                     appConsole.clear();
                     AddUserFormUI addFormUI = new AddUserFormUI("Add User");
                     CreateUserForm addForm = new CreateUserForm();
@@ -49,7 +41,7 @@ public class View {
 
                     menu = new MainMenu();
                     break;
-                case Constants.REMOVE_USER_FORM:
+                case CONSTANTS.REMOVE_USER_FORM:
                     appConsole.clear();
                     DeleteUserFormUI removeFormUI = new DeleteUserFormUI("Delete User");
                     DeleteUserForm removeForm = new DeleteUserForm();
@@ -64,11 +56,11 @@ public class View {
                     menu = new MainMenu();
                     break;
 
-                case Constants.MAIN_MENU:
+                case CONSTANTS.MAIN_MENU:
                     menu = new MainMenu();
                     break;
 
-                case Constants.CLOSE_APP:
+                case CONSTANTS.CLOSE_APP:
                     state = 1;
                     break;
                 default:

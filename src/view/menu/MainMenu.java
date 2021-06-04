@@ -12,13 +12,13 @@ public class MainMenu extends Menu {
     public String returnAction() {
         switch (this.getAction()) {
             case 1:
-                return Constants.ADD_USER;
+                return CONSTANTS.ADD_USER_FORM;
             case 2:
-                return Constants.REMOVE_USER;
+                return CONSTANTS.REMOVE_USER_FORM;
             case 3:
-                return Constants.CLOSE_APP;
+                return CONSTANTS.CLOSE_APP;
             default:
-                return Constants.INVALID_OPTION;
+                return CONSTANTS.INVALID_OPTION;
         }
     }
 
