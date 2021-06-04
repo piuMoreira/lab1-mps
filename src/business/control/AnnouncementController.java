@@ -37,7 +37,7 @@ public class AnnouncementController {
         try {
             User user = binaryWriter.findUserByEmail(userInput.get(UserInput.EMAIL));
             Announcement announcement = new Announcement(user, userInput.get(UserInput.ANNOUNCEMENT), new Date());
-            binaryWriter.writeNews(announcement);
+            binaryWriter.writeAnnouncement(announcement);
         } catch (CustomException ex) {
             errors.add(ex.getMessage());
         }
@@ -58,7 +58,7 @@ public class AnnouncementController {
 
         try {
             //TODO: No infra tem que chamar o findNewsByTitle, se não encontrar lançar exceção
-            binaryWriter.removeNews(userInput.get(UserInput.NEWS));
+            binaryWriter.removeAnnouncement(userInput.get(UserInput.NEWS));
         } catch (CustomException ex) {
             errors.add(ex.getMessage());
         }

@@ -9,13 +9,13 @@ import business.control.validation.EmailValidator;
 import business.control.validation.Validator;
 import business.control.validation.exceptions.CustomException;
 import business.model.User;
-import infra.binaryWriter;
+import infra.UserBinaryWriter;
 
 public class UserController {
 
     private List<Validator> validators;
     private List<User> users;
-    //TODO: inicializar a classe BinaryWriter
+    //TODO: inicializar a classe UserBinaryWriter
 
     public UserController(List<Validator> validators) {
         this.validators = validators;

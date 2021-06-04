@@ -15,8 +15,7 @@ import infra.binaryWriter;
 
 public class NewsController {
     private List<Validator> validators;
-    //TODO: inicializar a classe BinaryWriter
-
+    //TODO: inicializar a classe NewsBinaryWriter e DataAccess
     public NewsController(List<Validator> validators) {
         this.validators = validators;
     }

@@ -20,13 +20,13 @@ import business.model.User;
 
 
 //classe responsável pela persistência (escrevendo e deletando users)
-public class BinaryWriter {
+public class UserBinaryWriter {
     private Path filename;
     private String pathname;
 
 
 
-    public BinaryWriter() throws Exception{
+    public UserBinaryWriter() throws Exception{
         String path = "users.bin";
         File file = new java.io.File(path);
         try {
@@ -77,33 +77,12 @@ public class BinaryWriter {
 
     }
 
-    private int countLines() throws Exception{
+    private int countLines() throws FileException{
         int lines = 0;
-
-        FileInputStream fis;
-        try {
-            fis = new FileInputStream(pathname);
-        } catch (FileNotFoundException e) {
-            throw new FileException("Não foi possível encontrar o arquivo.", e);
-        }
-        byte[] buffer = new byte[1024]; // BUFFER_SIZE = 8 * 1024
-        int read;
-
-        try {
-            while ((read = fis.read(buffer)) != -1) {
-                for (int i = 0; i < read; i++) {
-                    if (buffer[i] == '\n')
-                        lines++;
-                }
-            }
-        } catch (IOException e) {
-            throw new FileException("Não foi possível ler o arquivo.", e);
-        }
-
-        try {
-            fis.close();
-        } catch (Exception e) {
-            throw new FileException("Não foi possível fechar o arquivo.", e);
+        try{
+            lines = (int)Files.lines(Paths.get(pathname)).count();
+        }catch(IOException e){
+            throw new FileException("Occorreu um erro ao lidar com o arquivo.", e);
         }
         
 
