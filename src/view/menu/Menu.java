@@ -1,8 +1,11 @@
 package view.menu;
 
+
+import java.util.Map;
+
 public abstract class Menu {
     private String[] options;
-    private int action = -1;
+    private Map<Integer, String> actionMap;
 
     public Menu() {}
 
@@ -14,20 +17,11 @@ public abstract class Menu {
         this.options = options;
     }
 
-    public int getAction() {
-        return this.action;
-    }
-
-    public void setAction(int action) {
-        this.action = action;
-    }
-
-
-    public void parseOption(String rawOptionString) {
+    public Integer parseOption(String rawOptionString) {
         try {
-            this.setAction(Integer.valueOf(rawOptionString.trim()));
+            return Integer.valueOf(rawOptionString.trim());
         } catch (NumberFormatException e) {
-            this.setAction(-1);
+            return -1;
         }
 
     }
@@ -40,5 +34,15 @@ public abstract class Menu {
         return "************************************************\nMENU\n\n" + menuOptions + "\n\nOption: ";
     }
 
-    public abstract String returnAction();
+    public void setActionMap(Map<Integer, String> actMap) {
+        this.actionMap = actMap;
+    };
+
+    public String getAction(Integer act) {
+        return this.actionMap.get(act);
+    }
+
+    public String returnAction(Integer option){
+        return this.getAction(option);
+    }
 }

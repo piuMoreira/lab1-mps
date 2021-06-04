@@ -1,18 +1,18 @@
 package view.forms;
 import business.control.helpers.UserInput;
 
-import java.util.Map;
+import java.util.HashMap;
 
-public class CreateUserForm {
 
-    private Map<UserInput, String> userInput;
+public class CreateUserForm extends BaseForm{
 
-    public Map<UserInput, String> getUserInput() {
-        return userInput;
+
+    public CreateUserForm() {
+        super();
     }
 
     public String getEmail() {
-        return userInput.get(UserInput.EMAIL);
+        return this.userInput.get(UserInput.EMAIL);
     }
 
     public void setEmail(String email) {
@@ -20,10 +20,11 @@ public class CreateUserForm {
     }
 
     public String getPassword() {
-        return userInput.get(UserInput.PASSWORD);
+        return this.userInput.get(UserInput.PASSWORD);
     }
 
     public void setPassword(String password) {
         this.userInput.put(UserInput.PASSWORD, password);;
     }
+
 }

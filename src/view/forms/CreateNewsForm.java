@@ -4,9 +4,9 @@ import business.control.helpers.UserInput;
 
 import java.util.HashMap;
 
-public class DeleteUserForm extends BaseForm{
+public class CreateNewsForm extends BaseForm{
 
-    public DeleteUserForm() {
+    public CreateNewsForm() {
         super();
     }
 
@@ -18,4 +18,11 @@ public class DeleteUserForm extends BaseForm{
         this.userInput.put(UserInput.EMAIL, email);
     }
 
+    public String getNews() {
+        return this.userInput.get(UserInput.NEWS);
+    }
+
+    public void setNews(String news) {
+        this.userInput.put(UserInput.NEWS, news);;
+    }
 }

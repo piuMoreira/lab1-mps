@@ -10,8 +10,9 @@ public class AppConsole implements IApplicationConsole {
 
     public AppConsole() {
         this.console = System.console();
-        this.scanner = new Scanner(console.reader());
+        this.scanner = new Scanner(System.console().reader());
     }
+
 
     @Override
     public String read() {
