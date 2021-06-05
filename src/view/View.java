@@ -1,10 +1,9 @@
 package view;
 
 
-import business.control.ControllerFacade;
+//import business.control.ControllerFacade;
 import view.console.AppConsole;
-import view.forms.CreateUserForm;
-import view.forms.DeleteUserForm;
+import view.forms.*;
 import view.menu.*;
 
 
@@ -12,7 +11,7 @@ public class View {
     private AppConsole appConsole;
     private int state = 0;
     private Menu menu = new MainMenu();
-    private ControllerFacade controllerFacade = new ControllerFacade();
+//    private ControllerFacade controllerFacade = new ControllerFacade();
 
     public View() {
         this.appConsole = new AppConsole();
@@ -21,54 +20,111 @@ public class View {
     public void run() throws InterruptedException {
         while (state < 1) {
             appConsole.clear();
-            appConsole.write(menu.menuToString());
-            menu.parseOption(appConsole.read());
-            switch (menu.returnAction()) {
-                case Constants
-                        .ADD_USER:
-                    menu = new AddUserMenu();
-                    break;
-                case Constants
-                        .REMOVE_USER:
-                    menu = new DeleteUserMenu();
-                    break;
-                case Constants.ADD_USER_FORM:
+            appConsole.write(this.menu.menuToString());
+            Integer option = this.menu.parseOption(appConsole.read());
+            switch (this.menu.returnAction(option)) {
+                case CONSTANTS.ADD_USER_FORM:
                     appConsole.clear();
-                    AddUserFormUI addFormUI = new AddUserFormUI("Add User");
-                    CreateUserForm addForm = new CreateUserForm();
-                    appConsole.write(addFormUI.getFormHeader());
+                    AddUserFormUI addUserFormUI = new AddUserFormUI("Add User");
+                    CreateUserForm addUserForm = new CreateUserForm();
+                    appConsole.write(addUserFormUI.getFormHeader());
 
-                    appConsole.write(addFormUI.getFields()[0]);
-                    addForm.setEmail(appConsole.read());
+                    appConsole.write(addUserFormUI.getFields()[0]);
+                    addUserForm.setEmail(appConsole.read());
 
-                    appConsole.write(addFormUI.getFields()[1]);
-                    addForm.setPassword(appConsole.read());
+                    appConsole.write(addUserFormUI.getFields()[1]);
+                    addUserForm.setPassword(appConsole.read());
 
                     // TODO call controller
-                    controllerFacade.createUser(addForm.getUserInput());
+//                    controllerFacade.createUser(addForm.getUserInput());
 
-                    menu = new MainMenu();
+                    this.menu = new MainMenu();
                     break;
-                case Constants.REMOVE_USER_FORM:
+                case CONSTANTS.REMOVE_USER_FORM:
                     appConsole.clear();
-                    DeleteUserFormUI removeFormUI = new DeleteUserFormUI("Delete User");
-                    DeleteUserForm removeForm = new DeleteUserForm();
-                    appConsole.write(removeFormUI.getFormHeader());
+                    DeleteUserFormUI removeUserFormUI = new DeleteUserFormUI("Delete User");
+                    DeleteUserForm removeUserForm = new DeleteUserForm();
+                    appConsole.write(removeUserFormUI.getFormHeader());
 
-                    appConsole.write(removeFormUI.getFields()[0]);
-                    removeForm.setEmail(appConsole.read());
+                    appConsole.write(removeUserFormUI.getFields()[0]);
+                    removeUserForm.setEmail(appConsole.read());
 
                     // TODO call controller
-                    controllerFacade.deleteUser(removeForm.getUserInput());
+//                    controllerFacade.deleteUser(removeForm.getUserInput());
 
-                    menu = new MainMenu();
+                    this.menu = new MainMenu();
                     break;
 
-                case Constants.MAIN_MENU:
-                    menu = new MainMenu();
+                case CONSTANTS.ADD_NEWS_FORM:
+                    appConsole.clear();
+                    AddNewsFormUI addNewsFormUI = new AddNewsFormUI("Add News");
+                    CreateNewsForm addNewsForm = new CreateNewsForm();
+                    appConsole.write(addNewsFormUI.getFormHeader());
+
+                    appConsole.write(addNewsFormUI.getFields()[0]);
+                    addNewsForm.setEmail(appConsole.read());
+
+                    appConsole.write(addNewsFormUI.getFields()[1]);
+                    addNewsForm.setNews(appConsole.read());
+
+                    // TODO call controller
+//                    controllerFacade.createUser(addForm.getUserInput());
+
+                    this.menu = new MainMenu();
+                    break;
+                case CONSTANTS.REMOVE_NEWS_FORM:
+                    appConsole.clear();
+                    DeleteNewsFormUI removeNewsFormUI = new DeleteNewsFormUI("Delete News");
+                    DeleteNewsForm removeNewsForm = new DeleteNewsForm();
+                    appConsole.write(removeNewsFormUI.getFormHeader());
+
+                    appConsole.write(removeNewsFormUI.getFields()[0]);
+                    removeNewsForm.setNews(appConsole.read());
+
+                    // TODO call controller
+//                    controllerFacade.deleteUser(removeForm.getUserInput());
+
+                    this.menu = new MainMenu();
                     break;
 
-                case Constants.CLOSE_APP:
+                case CONSTANTS.ADD_ANNOUNCEMENTS_FORM:
+                    appConsole.clear();
+                    AddAnnouncementsFormUI addAnnouncementsFormUI = new AddAnnouncementsFormUI("Add Announcements");
+                    CreateAnnouncementsForm addAnnouncementsForm = new CreateAnnouncementsForm();
+                    appConsole.write(addAnnouncementsFormUI.getFormHeader());
+
+                    appConsole.write(addAnnouncementsFormUI.getFields()[0]);
+                    addAnnouncementsForm.setEmail(appConsole.read());
+
+                    appConsole.write(addAnnouncementsFormUI.getFields()[1]);
+                    addAnnouncementsForm.setAnnouncement(appConsole.read());
+
+                    // TODO call controller
+//                    controllerFacade.createUser(addForm.getUserInput());
+
+                    this.menu = new MainMenu();
+                    break;
+
+                case CONSTANTS.REMOVE_ANNOUNCEMENTS_FORM:
+                    appConsole.clear();
+                    DeleteAnnouncementsFormUI deleteAnnouncementsFormUI = new DeleteAnnouncementsFormUI("Delete Announcements");
+                    DeleteAnnouncementsForm deleteAnnouncementsForm = new DeleteAnnouncementsForm();
+                    appConsole.write(deleteAnnouncementsFormUI.getFormHeader());
+
+                    appConsole.write(deleteAnnouncementsFormUI.getFields()[0]);
+                    deleteAnnouncementsForm.setAnnouncement(appConsole.read());
+
+                    // TODO call controller
+//                    controllerFacade.deleteUser(removeForm.getUserInput());
+
+                    this.menu = new MainMenu();
+                    break;
+
+                case CONSTANTS.MAIN_MENU:
+                    this.menu = new MainMenu();
+                    break;
+
+                case CONSTANTS.CLOSE_APP:
                     state = 1;
                     break;
                 default:

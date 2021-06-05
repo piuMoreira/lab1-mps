@@ -2,17 +2,16 @@ package view.forms;
 
 import business.util.helpers.UserInput;
 
-import java.util.Map;
+import java.util.HashMap;
 
-public class DeleteUserForm {
-    private Map<UserInput, String> userInput;
+public class DeleteUserForm extends BaseForm{
 
-    public Map<UserInput, String> getUserInput() {
-        return userInput;
+    public DeleteUserForm() {
+        super();
     }
 
     public String getEmail() {
-        return userInput.get(UserInput.EMAIL);
+        return this.userInput.get(UserInput.EMAIL);
     }
 
     public void setEmail(String email) {
