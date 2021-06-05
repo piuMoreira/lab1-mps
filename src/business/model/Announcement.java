@@ -2,6 +2,8 @@ package business.model;
 
 import java.util.Date;
 
+import business.control.validation.exceptions.CustomException;
+
 public class Announcement {
 
     private User createdBy;
@@ -12,6 +14,12 @@ public class Announcement {
         this.createdBy = createdBy;
         this.title = title;
         this.createdAt = createdAt;
+    }
+
+    public Announcement() {
+        this.createdBy = new User("", "");
+        this.title = "";
+        this.createdAt = new Date();
     }
 
     public String getTitle() {

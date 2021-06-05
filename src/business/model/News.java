@@ -1,13 +1,20 @@
 package business.model;
 
+import business.control.validation.exceptions.CustomException;
+
 public class News {
 
     private String title;
     private User createdBy;
 
-    public News(User createdBy, String title) {
+    public News(User createdBy, String title) throws CustomException {
         this.createdBy = createdBy;
         this.title = title;
+    }
+
+    public News() {
+        this.createdBy = new User("", "");
+        this.title = "";
     }
 
     public String getTitle() {
