@@ -1,8 +1,6 @@
 package infra;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -26,7 +24,7 @@ public class UserBinaryWriter {
 
 
 
-    public UserBinaryWriter() throws Exception{
+    public UserBinaryWriter() throws FileException{
         String path = "users.bin";
         File file = new java.io.File(path);
         try {
@@ -39,7 +37,7 @@ public class UserBinaryWriter {
         this.pathname = path;
     }
 
-    public void writeUserList(List<User> users) throws Exception{       
+    public void writeUserList(List<User> users) throws FileException{       
         byte newline[] = "\n".getBytes(StandardCharsets.UTF_8);
         byte tab[] = "\t".getBytes(StandardCharsets.UTF_8);
         
@@ -61,7 +59,7 @@ public class UserBinaryWriter {
 
     }
 
-    public void removeUser(String userLogin) throws Exception {
+    public void removeUser(String userLogin) throws InexistentUserException, FileException {
         int lines = countLines();
         List<String> out;
         try {

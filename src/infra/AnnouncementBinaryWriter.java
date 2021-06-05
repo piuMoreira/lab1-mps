@@ -7,24 +7,26 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.stream.Collectors;
 
 // import business.control.validation.exceptions.CustomException;
 import business.control.validation.exceptions.FileException;
-import business.control.validation.exceptions.InexistentNewsException;
-import business.model.News;
+import business.control.validation.exceptions.InexistentAnnouncementException;
+import business.model.Announcement;
 
 
 
-//classe responsável pela persistência (escrevendo e deletando users)
-public class NewsBinaryWriter {
+//classe responsável pela persistência (escrevendo e deletando announcements)
+public class AnnouncementBinaryWriter {
 
     String pathname;
     Path filename;
+    SimpleDateFormat dateFormat;
     
-    public NewsBinaryWriter() throws FileException{
-        String path = "news.bin";
+    public AnnouncementBinaryWriter() throws FileException{
+        String path = "announcement.bin";
         File file = new java.io.File(path);
         try {
             file.createNewFile();
@@ -34,19 +36,23 @@ public class NewsBinaryWriter {
 
         this.filename = Paths.get(path);
         this.pathname = path;
+        this.dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
     }
 
-    public void writeNews(News news) throws FileException {
+    public void writeAnnouncement(Announcement announ) throws FileException {
         byte newline[] = "\n".getBytes(StandardCharsets.UTF_8);
         byte tab[] = "\t".getBytes(StandardCharsets.UTF_8);
 
-        byte email[] = news.getCreatedBy().getEmail().getBytes(StandardCharsets.UTF_8);
-        byte title[] = news.getTitle().getBytes(StandardCharsets.UTF_8);
+        byte email[] = announ.getCreatedBy().getEmail().getBytes(StandardCharsets.UTF_8);
+        byte title[] = announ.getTitle().getBytes(StandardCharsets.UTF_8);
+        byte date[] = dateFormat.format(announ.getCreatedAt()).getBytes(StandardCharsets.UTF_8);
 
         try {
             Files.write(filename, title, StandardOpenOption.APPEND);
             Files.write(filename, tab, StandardOpenOption.APPEND);
             Files.write(filename, email, StandardOpenOption.APPEND);
+            Files.write(filename, tab, StandardOpenOption.APPEND);
+            Files.write(filename, date, StandardOpenOption.APPEND);
             Files.write(filename, newline, StandardOpenOption.APPEND);
         } catch (IOException e) {
             throw new FileException("Não foi possível escrever no arquivo.", e);
@@ -54,13 +60,13 @@ public class NewsBinaryWriter {
 
     }
 
-    public void removeNews(News news) throws InexistentNewsException, FileException {
+    public void removeNews(Announcement announ) throws InexistentAnnouncementException, FileException {
         int lines = countLines();
         List<String> out;
         try {
-            out = Files.lines(filename).filter(line -> (!line.contains(news.getCreatedBy().getEmail()) && !line.contains(news.getTitle()))).collect(Collectors.toList());
+            out = Files.lines(filename).filter(line -> (!line.contains(announ.getCreatedBy().getEmail()) && !line.contains(dateFormat.format(announ.getCreatedAt())) && !line.contains(announ.getTitle()))).collect(Collectors.toList());
             if (out.size() == lines)
-                throw new InexistentNewsException("Notícia não encontrado.");
+                throw new InexistentAnnouncementException("Anúncio não encontrado.");
             else {
                 Files.write(filename, out, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING);
             }
