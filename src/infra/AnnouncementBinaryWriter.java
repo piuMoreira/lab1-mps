@@ -60,11 +60,11 @@ public class AnnouncementBinaryWriter {
 
     }
 
-    public void removeNews(Announcement announ) throws InexistentAnnouncementException, FileException {
+    public void removeAnnouncement(Announcement announ) throws InexistentAnnouncementException, FileException {
         int lines = countLines();
         List<String> out;
         try {
-            out = Files.lines(filename).filter(line -> (!line.contains(announ.getCreatedBy().getEmail()) && !line.contains(dateFormat.format(announ.getCreatedAt())) && !line.contains(announ.getTitle()))).collect(Collectors.toList());
+            out = Files.lines(filename).filter(line -> (!line.split("\t")[1].equals(announ.getCreatedBy().getEmail()) || !line.split("\t")[2].equals(dateFormat.format(announ.getCreatedAt())) || !line.split("\t")[0].equals(announ.getTitle()))).collect(Collectors.toList());
             if (out.size() == lines)
                 throw new InexistentAnnouncementException("Anúncio não encontrado.");
             else {

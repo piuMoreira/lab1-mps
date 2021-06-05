@@ -55,12 +55,13 @@ public class NewsBinaryWriter {
     }
 
     public void removeNews(News news) throws InexistentNewsException, FileException {
-        int lines = countLines();
+        int lineNb = countLines();
         List<String> out;
         try {
-            out = Files.lines(filename).filter(line -> (!line.contains(news.getCreatedBy().getEmail()) && !line.contains(news.getTitle()))).collect(Collectors.toList());
-            if (out.size() == lines)
-                throw new InexistentNewsException("Notícia não encontrado.");
+            out = Files.lines(filename).filter(line -> (!line.split("\t")[0].equals(news.getTitle()) || !line.split("\t")[1].equals(news.getCreatedBy().getEmail()))).collect(Collectors.toList());           
+            System.out.println(out.get(0).split("\t")[1]);
+            if (out.size() == lineNb)
+                throw new InexistentNewsException("Notícia não encontrada.");
             else {
                 Files.write(filename, out, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING);
             }
