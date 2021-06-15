@@ -18,30 +18,18 @@ import business.model.News;
 
 
 //classe responsável pela persistência (escrevendo e deletando users)
-public class NewsBinaryWriter {
-
-    String pathname;
-    Path filename;
+public class NewsBinaryWriter extends BinaryWriter {
     
-    public NewsBinaryWriter() throws FileException{
-        String path = "news.bin";
-        File file = new java.io.File(path);
-        try {
-            file.createNewFile();
-        } catch (IOException e) {
-            throw new FileException("Não foi possível criar o arquivo.", e);
-        }
-
-        this.filename = Paths.get(path);
-        this.pathname = path;
+    public NewsBinaryWriter() throws FileException {
+        super("news.bin");
     }
 
-    public void writeNews(News news) throws FileException {
+    public void write(Object news) throws FileException {
         byte newline[] = "\n".getBytes(StandardCharsets.UTF_8);
         byte tab[] = "\t".getBytes(StandardCharsets.UTF_8);
 
-        byte email[] = news.getCreatedBy().getEmail().getBytes(StandardCharsets.UTF_8);
-        byte title[] = news.getTitle().getBytes(StandardCharsets.UTF_8);
+        byte email[] = ((News) news).getCreatedBy().getEmail().getBytes(StandardCharsets.UTF_8);
+        byte title[] = ((News) news).getTitle().getBytes(StandardCharsets.UTF_8);
 
         try {
             Files.write(filename, title, StandardOpenOption.APPEND);
@@ -54,11 +42,11 @@ public class NewsBinaryWriter {
 
     }
 
-    public void removeNews(News news) throws InexistentNewsException, FileException {
+    public void remove(Object news) throws InexistentNewsException, FileException {
         int lineNb = countLines();
         List<String> out;
         try {
-            out = Files.lines(filename).filter(line -> (!line.split("\t")[0].equals(news.getTitle()) || !line.split("\t")[1].equals(news.getCreatedBy().getEmail()))).collect(Collectors.toList());           
+            out = Files.lines(filename).filter(line -> (!line.split("\t")[0].equals(((News) news).getTitle()) || !line.split("\t")[1].equals(((News) news).getCreatedBy().getEmail()))).collect(Collectors.toList());           
             System.out.println(out.get(0).split("\t")[1]);
             if (out.size() == lineNb)
                 throw new InexistentNewsException("Notícia não encontrada.");
@@ -70,25 +58,6 @@ public class NewsBinaryWriter {
         }
 
     }
-
-    private int countLines() throws FileException{
-        int lines = 0;
-        try{
-            lines = (int)Files.lines(Paths.get(pathname)).count();
-        }catch(IOException e){
-            throw new FileException("Occorreu um erro ao lidar com o arquivo.", e);
-        }
-        
-
-        return lines;
-    }
-
-
-
-
-
-    
-
 
 
 }

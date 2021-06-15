@@ -19,33 +19,23 @@ import business.model.Announcement;
 
 
 //classe responsável pela persistência (escrevendo e deletando announcements)
-public class AnnouncementBinaryWriter {
+public class AnnouncementBinaryWriter extends BinaryWriter {
 
-    String pathname;
-    Path filename;
     SimpleDateFormat dateFormat;
     
     public AnnouncementBinaryWriter() throws FileException{
-        String path = "announcement.bin";
-        File file = new java.io.File(path);
-        try {
-            file.createNewFile();
-        } catch (IOException e) {
-            throw new FileException("Não foi possível criar o arquivo.", e);
-        }
-
-        this.filename = Paths.get(path);
-        this.pathname = path;
+        super("announcement.bin");
+        
         this.dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
     }
 
-    public void writeAnnouncement(Announcement announ) throws FileException {
+    public void write(Object announ) throws FileException {
         byte newline[] = "\n".getBytes(StandardCharsets.UTF_8);
         byte tab[] = "\t".getBytes(StandardCharsets.UTF_8);
 
-        byte email[] = announ.getCreatedBy().getEmail().getBytes(StandardCharsets.UTF_8);
-        byte title[] = announ.getTitle().getBytes(StandardCharsets.UTF_8);
-        byte date[] = dateFormat.format(announ.getCreatedAt()).getBytes(StandardCharsets.UTF_8);
+        byte email[] = ((Announcement) announ).getCreatedBy().getEmail().getBytes(StandardCharsets.UTF_8);
+        byte title[] = ((Announcement) announ).getTitle().getBytes(StandardCharsets.UTF_8);
+        byte date[] = dateFormat.format(((Announcement) announ).getCreatedAt()).getBytes(StandardCharsets.UTF_8);
 
         try {
             Files.write(filename, title, StandardOpenOption.APPEND);
@@ -60,11 +50,11 @@ public class AnnouncementBinaryWriter {
 
     }
 
-    public void removeAnnouncement(Announcement announ) throws InexistentAnnouncementException, FileException {
+    public void remove(Object announ) throws InexistentAnnouncementException, FileException {
         int lines = countLines();
         List<String> out;
         try {
-            out = Files.lines(filename).filter(line -> (!line.split("\t")[1].equals(announ.getCreatedBy().getEmail()) || !line.split("\t")[2].equals(dateFormat.format(announ.getCreatedAt())) || !line.split("\t")[0].equals(announ.getTitle()))).collect(Collectors.toList());
+            out = Files.lines(filename).filter(line -> (!line.split("\t")[1].equals(((Announcement) announ).getCreatedBy().getEmail()) || !line.split("\t")[2].equals(dateFormat.format(((Announcement) announ).getCreatedAt())) || !line.split("\t")[0].equals(((Announcement) announ).getTitle()))).collect(Collectors.toList());
             if (out.size() == lines)
                 throw new InexistentAnnouncementException("Anúncio não encontrado.");
             else {
@@ -75,26 +65,6 @@ public class AnnouncementBinaryWriter {
         }
 
     }
-
-    private int countLines() throws FileException{
-        int lines = 0;
-        try{
-            lines = (int)Files.lines(Paths.get(pathname)).count();
-        }catch(IOException e){
-            throw new FileException("Occorreu um erro ao lidar com o arquivo.", e);
-        }
-        
-
-        return lines;
-    }
-
-
-
-
-
-    
-
-
 
 }
 

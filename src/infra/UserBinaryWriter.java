@@ -18,30 +18,19 @@ import business.model.User;
 
 
 //classe responsável pela persistência (escrevendo e deletando users)
-public class UserBinaryWriter {
-    private Path filename;
-    private String pathname;
+public class UserBinaryWriter extends BinaryWriter {
 
 
 
     public UserBinaryWriter() throws FileException{
-        String path = "users.bin";
-        File file = new java.io.File(path);
-        try {
-            file.createNewFile();
-        } catch (IOException e) {
-            throw new FileException("Não foi possível criar o arquivo.", e);
-        }
-
-        this.filename = Paths.get(path);
-        this.pathname = path;
+        super("users.bin");
     }
 
-    public void writeUserList(List<User> users) throws FileException{       
+    public void write(Object users) throws FileException{       
         byte newline[] = "\n".getBytes(StandardCharsets.UTF_8);
         byte tab[] = "\t".getBytes(StandardCharsets.UTF_8);
         
-        for(User user : users){
+        for(User user : ((List<User>) users)){
             
             byte email[] = user.getEmail().getBytes(StandardCharsets.UTF_8);
             byte password[] = user.getPassword().getBytes(StandardCharsets.UTF_8);
@@ -59,11 +48,11 @@ public class UserBinaryWriter {
 
     }
 
-    public void removeUser(String userLogin) throws InexistentUserException, FileException {
+    public void remove(Object userLogin) throws InexistentUserException, FileException {
         int lines = countLines();
         List<String> out;
         try {
-            out = Files.lines(filename).filter(line -> !line.contains(userLogin)).collect(Collectors.toList());
+            out = Files.lines(filename).filter(line -> !line.contains((String)userLogin)).collect(Collectors.toList());
             if (out.size() == lines)
                 throw new InexistentUserException("Usuário não encontrado.");
             else {
@@ -74,25 +63,6 @@ public class UserBinaryWriter {
         }
 
     }
-
-    private int countLines() throws FileException{
-        int lines = 0;
-        try{
-            lines = (int)Files.lines(Paths.get(pathname)).count();
-        }catch(IOException e){
-            throw new FileException("Occorreu um erro ao lidar com o arquivo.", e);
-        }
-        
-
-        return lines;
-    }
-
-
-
-
-
-    
-
 
 
 }
