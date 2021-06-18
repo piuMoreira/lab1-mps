@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import business.control.validation.EmailValidator;
 import business.util.helpers.UserInput;
 import business.control.validation.AnnouncementValidator;
 import business.control.validation.Validator;
@@ -59,6 +60,25 @@ public class AnnouncementController {
         try {
             //TODO: No infra tem que chamar o findNewsByTitle, se não encontrar lançar exceção
             binaryWriter.removeNews(userInput.get(UserInput.NEWS));
+        } catch (CustomException ex) {
+            errors.add(ex.getMessage());
+        }
+
+        return errors;
+    }
+
+    public List<String> deleteAll(Map<UserInput, String> userInput) {
+        List<String> errors = new ArrayList<>();
+
+        try {
+            EmailValidator emailValidator = new EmailValidator();
+            emailValidator.validate(userInput);
+        } catch (CustomException ex) {
+            errors.add(ex.getMessage());
+        }
+
+        try {
+            binaryWriter.removeAllNews(userInput.get(UserInput.EMAIL));
         } catch (CustomException ex) {
             errors.add(ex.getMessage());
         }
