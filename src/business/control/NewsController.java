@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import business.util.helpers.UserInput;
-import business.control.validation.NewsValidator;
+import business.control.validation.EmailValidator;
 import business.control.validation.Validator;
 import business.control.validation.exceptions.CustomException;
 import business.model.News;
@@ -55,6 +55,26 @@ public class NewsController {
         try {
             // No infra tem que chamar o findNewsByTitle, se não encontrar lançar exceção
             binaryWriter.removeNews(userInput.get(UserInput.NEWS));
+        } catch (CustomException ex) {
+            errors.add(ex.getMessage());
+        }
+
+        return errors;
+    }
+
+    public List<String> deleteAll(Map<UserInput, String> userInput) {
+        List<String> errors = new ArrayList<>();
+
+        try {
+            EmailValidator emailValidator = new EmailValidator();
+            emailValidator.validate(userInput);
+        } catch (CustomException ex) {
+            errors.add(ex.getMessage());
+        }
+
+        try {
+            // No infra tem que chamar o findNewsByTitle, se não encontrar lançar exceção
+            binaryWriter.removeAllNews(userInput.get(UserInput.EMAIL));
         } catch (CustomException ex) {
             errors.add(ex.getMessage());
         }
