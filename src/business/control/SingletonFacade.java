@@ -1,13 +1,15 @@
 package business.control;
 
 import business.control.validation.*;
+import business.util.helpers.UserInput;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-public class ControllerSingleton {
+public class SingletonFacade {
 
-    private ControllerSingleton() {}
+    private SingletonFacade() {}
 
     private static final List<Validator> userValidators = new ArrayList<>() {{
         add(new EmailValidator());
@@ -51,4 +53,19 @@ public class ControllerSingleton {
     public static synchronized List<Validator> getAnnouncementValidators() {
         return announcementValidators;
     }
+
+    public List<String> deleteUser (Map<UserInput, String> userInput) {
+        UserController userController = SingletonFacade.getUserController();
+        NewsController newsController = SingletonFacade.getNewsController();
+        AnnouncementController announcementController = SingletonFacade.getAnnouncementController();
+
+        List<String> errors = new ArrayList<>();
+        errors.addAll( userController.delete(userInput) );
+        errors.addAll( newsController.deleteAll(userInput) );
+        errors.addAll( announcementController.deleteAll(userInput) );
+
+        return errors;
+    }
+
 }
+
