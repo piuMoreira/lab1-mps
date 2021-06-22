@@ -4,18 +4,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import business.control.validation.exceptions.FileException;
+import business.control.validation.exceptions.InexistentUserException;
 import business.util.helpers.UserInput;
 import business.control.validation.EmailValidator;
 import business.control.validation.Validator;
 import business.control.validation.exceptions.CustomException;
 import business.model.User;
+import infra.DataAccess;
 import infra.UserBinaryWriter;
 
 public class UserController {
 
     private List<Validator> validators;
     private List<User> users;
-    //TODO: inicializar a classe UserBinaryWriter
 
     public UserController(List<Validator> validators) {
         this.validators = validators;
@@ -38,7 +40,8 @@ public class UserController {
             User user = new User(userInput.get(UserInput.EMAIL), userInput.get(UserInput.PASSWORD));
             this.users.add(user);
 
-            binaryWriter.writeUserList(this.users);
+            UserBinaryWriter userBinaryWriter = new UserBinaryWriter();
+            userBinaryWriter.write(this.users);
         } catch (CustomException ex) {
             errors.add(ex.getMessage());
         }
@@ -57,13 +60,19 @@ public class UserController {
         }
 
         try {
-            //TODO: chamar o findUserByEmail antes de remover
-            binaryWriter.removeUser(userInput.get(UserInput.EMAIL));
+            UserBinaryWriter userBinaryWriter = new UserBinaryWriter();
+            userBinaryWriter.remove(userInput.get(UserInput.EMAIL));
         } catch (CustomException ex) {
             errors.add(ex.getMessage());
         }
 
         return errors;
+    }
+
+    public User findUserByEmail (Map<UserInput, String> userInput) throws FileException, InexistentUserException {
+        DataAccess dataAccess = new DataAccess();
+
+        return dataAccess.findUserByEmail(userInput.get(UserInput.EMAIL));
     }
 
 }
