@@ -22,7 +22,7 @@ public class AnnouncementController {
         this.validators = validators;
     }
 
-    public List<String> add (Map<UserInput, String> userInput) {
+    public List<String> add (User user, Map<UserInput, String> userInput) {
 
         List<String> errors = new ArrayList<>();
 
@@ -35,9 +35,9 @@ public class AnnouncementController {
         }
 
         try {
-            User user = binaryWriter.findUserByEmail(userInput.get(UserInput.EMAIL));
+            AnnouncementBinaryWriter announcementBinaryWriter = new AnnouncementBinaryWriter();
             Announcement announcement = new Announcement(user, userInput.get(UserInput.ANNOUNCEMENT), new Date());
-            binaryWriter.writeAnnouncement(announcement);
+            announcementBinaryWriter.write(announcement);
         } catch (CustomException ex) {
             errors.add(ex.getMessage());
         }
@@ -45,7 +45,7 @@ public class AnnouncementController {
         return errors;
     }
 
-    public List<String> delete (Map<UserInput, String> userInput) {
+    public List<String> delete (User user, Map<UserInput, String> userInput) {
 
         List<String> errors = new ArrayList<>();
 
@@ -57,8 +57,8 @@ public class AnnouncementController {
         }
 
         try {
-            //TODO: No infra tem que chamar o findNewsByTitle, se não encontrar lançar exceção
-            binaryWriter.removeAnnouncement(userInput.get(UserInput.NEWS));
+            AnnouncementBinaryWriter announcementBinaryWriter = new AnnouncementBinaryWriter();
+            announcementBinaryWriter.remove(userInput.get(UserInput.ANNOUNCEMENT));
         } catch (CustomException ex) {
             errors.add(ex.getMessage());
         }
@@ -77,7 +77,8 @@ public class AnnouncementController {
         }
 
         try {
-            binaryWriter.removeAllNews(userInput.get(UserInput.EMAIL));
+            AnnouncementBinaryWriter announcementBinaryWriter = new AnnouncementBinaryWriter();
+            announcementBinaryWriter.removeAllAnnouncements(userInput.get(UserInput.ANNOUNCEMENT));
         } catch (CustomException ex) {
             errors.add(ex.getMessage());
         }
