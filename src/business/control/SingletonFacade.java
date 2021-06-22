@@ -24,7 +24,6 @@ public class SingletonFacade {
     }};
 
     private static final List<Validator> announcementValidators = new ArrayList<>() {{
-        add(new EmailValidator());
         add(new AnnouncementValidator());
     }};
 
