@@ -95,5 +95,31 @@ public class SingletonFacade {
         return errors;
     }
 
+    public List<String> createAnnouncement(Map<UserInput, String> userInput) {
+        List<String> errors = new ArrayList<>();
+
+        try {
+            User user = SingletonFacade.getUserController().findUserByEmail(userInput);
+            SingletonFacade.getAnnouncementController().add(user, userInput);
+        } catch (CustomException ex) {
+            errors.add(ex.getMessage());
+        }
+
+        return errors;
+    }
+
+    public List<String> deleteAnnouncement(Map<UserInput, String> userInput) {
+        List<String> errors = new ArrayList<>();
+
+        try {
+            User user = SingletonFacade.getUserController().findUserByEmail(userInput);
+            SingletonFacade.getAnnouncementController().delete(user, userInput);
+        } catch (CustomException ex) {
+            errors.add(ex.getMessage());
+        }
+
+        return errors;
+    }
+
 }
 
