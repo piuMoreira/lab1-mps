@@ -12,12 +12,11 @@ import business.control.validation.Validator;
 import business.control.validation.exceptions.CustomException;
 import business.model.Announcement;
 import business.model.User;
-import infra.binaryWriter;
+import infra.AnnouncementBinaryWriter;
 
 public class AnnouncementController {
 
     private List<Validator> validators;
-    //TODO: inicializar a classe BinaryWriter (ou a classe que vai cuidar do announcement na infra)
 
     public AnnouncementController(List<Validator> validators) {
         this.validators = validators;

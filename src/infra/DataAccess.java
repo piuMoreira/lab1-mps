@@ -56,4 +56,6 @@ public class DataAccess {
 
     }
 
+    //@TODO: implementar findNewsByUser ou algo do tipo, a mesma coisa para Announcement.
+
 }

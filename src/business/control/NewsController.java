@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import business.control.validation.NewsValidator;
 import business.util.helpers.UserInput;
 import business.control.validation.EmailValidator;
 import business.control.validation.Validator;
@@ -11,16 +12,15 @@ import business.control.validation.exceptions.CustomException;
 import business.model.News;
 import business.model.User;
 
-import infra.binaryWriter;
+import infra.NewsBinaryWriter;
 
 public class NewsController {
     private List<Validator> validators;
-    //TODO: inicializar a classe NewsBinaryWriter e DataAccess
     public NewsController(List<Validator> validators) {
         this.validators = validators;
     }
 
-    public List<String> add(Map<UserInput, String> userInput) {
+    public List<String> add(User user, Map<UserInput, String> userInput) {
         List<String> errors = new ArrayList<>();
 
         try {
@@ -32,9 +32,9 @@ public class NewsController {
         }
 
         try {
-            User user = binaryWriter.findUserByEmail(userInput.get(UserInput.EMAIL));
             News news = new News(user, userInput.get(UserInput.NEWS));
-            binaryWriter.writeNews(news);
+            NewsBinaryWriter newsBinaryWriter = new NewsBinaryWriter();
+            newsBinaryWriter.write(news);
         } catch (CustomException ex) {
             errors.add(ex.getMessage());
         }
@@ -42,7 +42,7 @@ public class NewsController {
         return errors;
     }
 
-    public List<String> delete(Map<UserInput, String> userInput) {
+    public List<String> delete(User user, Map<UserInput, String> userInput) {
         List<String> errors = new ArrayList<>();
 
         try {
@@ -53,8 +53,8 @@ public class NewsController {
         }
 
         try {
-            // No infra tem que chamar o findNewsByTitle, se não encontrar lançar exceção
-            binaryWriter.removeNews(userInput.get(UserInput.NEWS));
+            NewsBinaryWriter newsBinaryWriter = new NewsBinaryWriter();
+            newsBinaryWriter.remove(userInput.get(UserInput.NEWS));
         } catch (CustomException ex) {
             errors.add(ex.getMessage());
         }
@@ -73,8 +73,8 @@ public class NewsController {
         }
 
         try {
-            // No infra tem que chamar o findNewsByTitle, se não encontrar lançar exceção
-            binaryWriter.removeAllNews(userInput.get(UserInput.EMAIL));
+            NewsBinaryWriter newsBinaryWriter = new NewsBinaryWriter();
+            newsBinaryWriter.remove(userInput.get(UserInput.EMAIL));
         } catch (CustomException ex) {
             errors.add(ex.getMessage());
         }

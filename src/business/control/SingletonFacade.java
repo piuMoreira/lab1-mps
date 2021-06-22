@@ -1,6 +1,9 @@
 package business.control;
 
 import business.control.validation.*;
+import business.control.validation.exceptions.CustomException;
+import business.model.News;
+import business.model.User;
 import business.util.helpers.UserInput;
 
 import java.util.ArrayList;
@@ -17,7 +20,6 @@ public class SingletonFacade {
     }};
 
     private static final List<Validator> newsValidators = new ArrayList<>() {{
-        add(new EmailValidator());
         add(new NewsValidator());
     }};
 
@@ -63,6 +65,32 @@ public class SingletonFacade {
         errors.addAll( userController.delete(userInput) );
         errors.addAll( newsController.deleteAll(userInput) );
         errors.addAll( announcementController.deleteAll(userInput) );
+
+        return errors;
+    }
+
+    public List<String> createNews(Map<UserInput, String> userInput) {
+        List<String> errors = new ArrayList<>();
+
+        try {
+            User user = SingletonFacade.getUserController().findUserByEmail(userInput);
+            SingletonFacade.getNewsController().add(user, userInput);
+        } catch (CustomException ex) {
+            errors.add(ex.getMessage());
+        }
+
+        return errors;
+    }
+
+    public List<String> deleteNews(Map<UserInput, String> userInput) {
+        List<String> errors = new ArrayList<>();
+
+        try {
+            User user = SingletonFacade.getUserController().findUserByEmail(userInput);
+            SingletonFacade.getNewsController().delete(user, userInput);
+        } catch (CustomException ex) {
+            errors.add(ex.getMessage());
+        }
 
         return errors;
     }
