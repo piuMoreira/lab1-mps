@@ -1,6 +1,6 @@
 package view.forms;
 
-import business.control.helpers.UserInput;
+import business.util.helpers.UserInput;
 
 import java.util.HashMap;
 

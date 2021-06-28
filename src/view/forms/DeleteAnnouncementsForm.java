@@ -1,6 +1,6 @@
 package view.forms;
 
-import business.control.helpers.UserInput;
+import business.util.helpers.UserInput;
 
 public class DeleteAnnouncementsForm extends BaseForm{
     public DeleteAnnouncementsForm() {
