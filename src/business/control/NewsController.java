@@ -6,17 +6,26 @@ import java.util.Map;
 
 import business.control.validation.NewsValidator;
 import business.util.helpers.UserInput;
+import infra.factory.BinaryWriter;
 import infra.factory.NewsBinaryWriter;
 import business.control.validation.EmailValidator;
 import business.control.validation.Validator;
 import business.control.validation.exceptions.CustomException;
+import business.control.validation.exceptions.FileException;
 import business.model.News;
 import business.model.User;
 
 public class NewsController {
     private List<Validator> validators;
+    private BinaryWriter binaryWriterFactory;
+    
     public NewsController(List<Validator> validators) {
         this.validators = validators;
+        try {
+			binaryWriterFactory = new NewsBinaryWriter();
+		} catch (FileException e) {
+			e.printStackTrace();
+		}
     }
 
     public List<String> add(User user, Map<UserInput, String> userInput) {
@@ -32,8 +41,7 @@ public class NewsController {
 
         try {
             News news = new News(user, userInput.get(UserInput.NEWS));
-            NewsBinaryWriter newsBinaryWriter = new NewsBinaryWriter();
-            newsBinaryWriter.write(news);
+            binaryWriterFactory.write(news);
         } catch (CustomException ex) {
             errors.add(ex.getMessage());
         }
@@ -52,8 +60,7 @@ public class NewsController {
         }
 
         try {
-            NewsBinaryWriter newsBinaryWriter = new NewsBinaryWriter();
-            newsBinaryWriter.remove(userInput.get(UserInput.NEWS));
+            binaryWriterFactory.remove(userInput.get(UserInput.NEWS));
         } catch (CustomException ex) {
             errors.add(ex.getMessage());
         }

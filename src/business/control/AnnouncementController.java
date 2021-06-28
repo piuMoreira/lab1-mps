@@ -8,18 +8,26 @@ import java.util.Map;
 import business.control.validation.EmailValidator;
 import business.util.helpers.UserInput;
 import infra.factory.AnnouncementBinaryWriter;
+import infra.factory.BinaryWriter;
 import business.control.validation.AnnouncementValidator;
 import business.control.validation.Validator;
 import business.control.validation.exceptions.CustomException;
+import business.control.validation.exceptions.FileException;
 import business.model.Announcement;
 import business.model.User;
 
 public class AnnouncementController {
 
     private List<Validator> validators;
+    private BinaryWriter binaryWriterFactory;
 
     public AnnouncementController(List<Validator> validators) {
         this.validators = validators;
+        try {
+			binaryWriterFactory = new AnnouncementBinaryWriter();
+		} catch (FileException e) {
+			e.printStackTrace();
+		}
     }
 
     public List<String> add (User user, Map<UserInput, String> userInput) {
@@ -34,10 +42,9 @@ public class AnnouncementController {
             errors.add(ex.getMessage());
         }
 
-        try {
-            AnnouncementBinaryWriter announcementBinaryWriter = new AnnouncementBinaryWriter();
+        try {            
             Announcement announcement = new Announcement(user, userInput.get(UserInput.ANNOUNCEMENT), new Date());
-            announcementBinaryWriter.write(announcement);
+            binaryWriterFactory.write(announcement);
         } catch (CustomException ex) {
             errors.add(ex.getMessage());
         }
@@ -57,8 +64,7 @@ public class AnnouncementController {
         }
 
         try {
-            AnnouncementBinaryWriter announcementBinaryWriter = new AnnouncementBinaryWriter();
-            announcementBinaryWriter.remove(userInput.get(UserInput.ANNOUNCEMENT));
+            binaryWriterFactory.remove(userInput.get(UserInput.ANNOUNCEMENT));
         } catch (CustomException ex) {
             errors.add(ex.getMessage());
         }

@@ -26,9 +26,9 @@ public abstract class BinaryWriter {
         this.pathname = path;
     }
 	
-    abstract void write(Object ob) throws CustomException;
+    public abstract void write(Object ob) throws CustomException;
     
-    abstract void remove(Object ob) throws CustomException;
+    public abstract void remove(Object ob) throws CustomException;
     
     protected int countLines() throws FileException{
         int lines = 0;

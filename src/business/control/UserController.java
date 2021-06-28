@@ -12,16 +12,23 @@ import business.control.validation.Validator;
 import business.control.validation.exceptions.CustomException;
 import business.model.User;
 import infra.DataAccess;
+import infra.factory.BinaryWriter;
 import infra.factory.UserBinaryWriter;
 
 public class UserController {
 
     private List<Validator> validators;
     private List<User> users;
+    private BinaryWriter binaryWriterFactory;
 
     public UserController(List<Validator> validators) {
         this.validators = validators;
         this.users = new ArrayList<>();
+        try {
+			binaryWriterFactory = new UserBinaryWriter();
+		} catch (FileException e) {
+			e.printStackTrace();
+		}
     }
 
     public List<String> add (Map<UserInput, String> userInput) {
@@ -40,8 +47,7 @@ public class UserController {
             User user = new User(userInput.get(UserInput.EMAIL), userInput.get(UserInput.PASSWORD));
             this.users.add(user);
 
-            UserBinaryWriter userBinaryWriter = new UserBinaryWriter();
-            userBinaryWriter.write(this.users);
+            binaryWriterFactory.write(this.users);
         } catch (CustomException ex) {
             errors.add(ex.getMessage());
         }
@@ -60,8 +66,7 @@ public class UserController {
         }
 
         try {
-            UserBinaryWriter userBinaryWriter = new UserBinaryWriter();
-            userBinaryWriter.remove(userInput.get(UserInput.EMAIL));
+            binaryWriterFactory.remove(userInput.get(UserInput.EMAIL));
         } catch (CustomException ex) {
             errors.add(ex.getMessage());
         }
