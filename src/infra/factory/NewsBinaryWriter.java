@@ -1,4 +1,4 @@
-package infra;
+package infra.factory;
 
 import java.io.File;
 import java.io.IOException;

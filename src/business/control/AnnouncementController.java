@@ -7,12 +7,12 @@ import java.util.Map;
 
 import business.control.validation.EmailValidator;
 import business.util.helpers.UserInput;
+import infra.factory.AnnouncementBinaryWriter;
 import business.control.validation.AnnouncementValidator;
 import business.control.validation.Validator;
 import business.control.validation.exceptions.CustomException;
 import business.model.Announcement;
 import business.model.User;
-import infra.AnnouncementBinaryWriter;
 
 public class AnnouncementController {
 

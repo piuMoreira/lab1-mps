@@ -12,7 +12,7 @@ import business.control.validation.Validator;
 import business.control.validation.exceptions.CustomException;
 import business.model.User;
 import infra.DataAccess;
-import infra.UserBinaryWriter;
+import infra.factory.UserBinaryWriter;
 
 public class UserController {
 

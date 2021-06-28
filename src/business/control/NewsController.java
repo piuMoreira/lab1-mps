@@ -6,13 +6,12 @@ import java.util.Map;
 
 import business.control.validation.NewsValidator;
 import business.util.helpers.UserInput;
+import infra.factory.NewsBinaryWriter;
 import business.control.validation.EmailValidator;
 import business.control.validation.Validator;
 import business.control.validation.exceptions.CustomException;
 import business.model.News;
 import business.model.User;
-
-import infra.NewsBinaryWriter;
 
 public class NewsController {
     private List<Validator> validators;
