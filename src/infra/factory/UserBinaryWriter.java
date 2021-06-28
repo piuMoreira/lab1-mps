@@ -26,11 +26,13 @@ public class UserBinaryWriter extends BinaryWriter {
         super("users.bin");
     }
 
-    public void write(Object users) throws FileException{       
+    public void write(Object users) throws FileException{    
+    	List<User> concreteUsers = (List<User>) users; 
+    	
         byte newline[] = "\n".getBytes(StandardCharsets.UTF_8);
         byte tab[] = "\t".getBytes(StandardCharsets.UTF_8);
         
-        for(User user : ((List<User>) users)){
+        for(User user : concreteUsers){
             
             byte email[] = user.getEmail().getBytes(StandardCharsets.UTF_8);
             byte password[] = user.getPassword().getBytes(StandardCharsets.UTF_8);
@@ -49,10 +51,12 @@ public class UserBinaryWriter extends BinaryWriter {
     }
 
     public void remove(Object userLogin) throws InexistentUserException, FileException {
+    	String concreteUserLogin = (String)userLogin;
+    	
         int lines = countLines();
         List<String> out;
         try {
-            out = Files.lines(filename).filter(line -> !line.contains((String)userLogin)).collect(Collectors.toList());
+            out = Files.lines(filename).filter(line -> !line.contains(concreteUserLogin)).collect(Collectors.toList());
             if (out.size() == lines)
                 throw new InexistentUserException("Usuário não encontrado.");
             else {

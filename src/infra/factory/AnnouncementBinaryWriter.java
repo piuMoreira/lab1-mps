@@ -30,12 +30,14 @@ public class AnnouncementBinaryWriter extends BinaryWriter {
     }
 
     public void write(Object announ) throws FileException {
+    	Announcement concreteAnnoun = (Announcement) announ;
+    	
         byte newline[] = "\n".getBytes(StandardCharsets.UTF_8);
         byte tab[] = "\t".getBytes(StandardCharsets.UTF_8);
 
-        byte email[] = ((Announcement) announ).getCreatedBy().getEmail().getBytes(StandardCharsets.UTF_8);
-        byte title[] = ((Announcement) announ).getTitle().getBytes(StandardCharsets.UTF_8);
-        byte date[] = dateFormat.format(((Announcement) announ).getCreatedAt()).getBytes(StandardCharsets.UTF_8);
+        byte email[] = concreteAnnoun.getCreatedBy().getEmail().getBytes(StandardCharsets.UTF_8);
+        byte title[] = concreteAnnoun.getTitle().getBytes(StandardCharsets.UTF_8);
+        byte date[] = dateFormat.format(concreteAnnoun.getCreatedAt()).getBytes(StandardCharsets.UTF_8);
 
         try {
             Files.write(filename, title, StandardOpenOption.APPEND);
@@ -51,10 +53,12 @@ public class AnnouncementBinaryWriter extends BinaryWriter {
     }
 
     public void remove(Object announ) throws InexistentAnnouncementException, FileException {
+    	Announcement concreteAnnoun = (Announcement) announ;
+    	
         int lines = countLines();
         List<String> out;
         try {
-            out = Files.lines(filename).filter(line -> (!line.split("\t")[1].equals(((Announcement) announ).getCreatedBy().getEmail()) || !line.split("\t")[2].equals(dateFormat.format(((Announcement) announ).getCreatedAt())) || !line.split("\t")[0].equals(((Announcement) announ).getTitle()))).collect(Collectors.toList());
+            out = Files.lines(filename).filter(line -> (!line.split("\t")[1].equals(concreteAnnoun.getCreatedBy().getEmail()) || !line.split("\t")[2].equals(dateFormat.format(concreteAnnoun.getCreatedAt())) || !line.split("\t")[0].equals(concreteAnnoun.getTitle()))).collect(Collectors.toList());
             if (out.size() == lines)
                 throw new InexistentAnnouncementException("Anúncio não encontrado.");
             else {

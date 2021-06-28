@@ -24,12 +24,14 @@ public class NewsBinaryWriter extends BinaryWriter {
         super("news.bin");
     }
 
-    public void write(Object news) throws FileException {
+    public void write(Object news) throws FileException {    	
+    	News concreteNews = (News) news;
+    	
         byte newline[] = "\n".getBytes(StandardCharsets.UTF_8);
         byte tab[] = "\t".getBytes(StandardCharsets.UTF_8);
 
-        byte email[] = ((News) news).getCreatedBy().getEmail().getBytes(StandardCharsets.UTF_8);
-        byte title[] = ((News) news).getTitle().getBytes(StandardCharsets.UTF_8);
+        byte email[] = concreteNews.getCreatedBy().getEmail().getBytes(StandardCharsets.UTF_8);
+        byte title[] = concreteNews.getTitle().getBytes(StandardCharsets.UTF_8);
 
         try {
             Files.write(filename, title, StandardOpenOption.APPEND);
@@ -43,10 +45,12 @@ public class NewsBinaryWriter extends BinaryWriter {
     }
 
     public void remove(Object news) throws InexistentNewsException, FileException {
+    	News concreteNews = (News) news;
+    	
         int lineNb = countLines();
         List<String> out;
         try {
-            out = Files.lines(filename).filter(line -> (!line.split("\t")[0].equals(((News) news).getTitle()) || !line.split("\t")[1].equals(((News) news).getCreatedBy().getEmail()))).collect(Collectors.toList());           
+            out = Files.lines(filename).filter(line -> (!line.split("\t")[0].equals(concreteNews.getTitle()) || !line.split("\t")[1].equals(concreteNews.getCreatedBy().getEmail()))).collect(Collectors.toList());           
             System.out.println(out.get(0).split("\t")[1]);
             if (out.size() == lineNb)
                 throw new InexistentNewsException("Notícia não encontrada.");
