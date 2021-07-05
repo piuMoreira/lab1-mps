@@ -27,4 +27,30 @@ public abstract class AReportGenerator {
     protected abstract void generateBody();
     protected abstract void writeToFile();
 
+	public String getHeader() {
+		return header;
+	}
+
+	public void setHeader(String header) {
+		this.header = header;
+	}
+
+	public String getBody() {
+		return body;
+	}
+
+	public void setBody(String body) {
+		this.body = body;
+	}
+
+	public String getOutputFolderPath() {
+		return outputFolderPath;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+    
+    
+    
 }

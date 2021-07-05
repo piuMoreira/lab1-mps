@@ -16,7 +16,9 @@ public class HTMLReportGenerator extends AReportGenerator{
     }
 
     @Override
-    protected void writeToFile() {
+    public void writeToFile() {
         System.out.println(String.format("Printing HTML to %s", this.outputFolderPath));
     }
+    
+    
 }

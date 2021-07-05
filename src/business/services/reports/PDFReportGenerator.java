@@ -16,7 +16,7 @@ public class PDFReportGenerator extends AReportGenerator{
     }
 
     @Override
-    protected void writeToFile() {
+    public void writeToFile() {
         System.out.println(String.format("Printing PDF to %s", this.outputFolderPath));
     }
 }
