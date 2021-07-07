@@ -84,7 +84,7 @@ public class AnnouncementController {
 
         try {
             AnnouncementBinaryWriter announcementBinaryWriter = new AnnouncementBinaryWriter();
-            announcementBinaryWriter.removeAllAnnouncements(userInput.get(UserInput.ANNOUNCEMENT));
+//            announcementBinaryWriter.removeAllAnnouncements(userInput.get(UserInput.ANNOUNCEMENT));
         } catch (CustomException ex) {
             errors.add(ex.getMessage());
         }

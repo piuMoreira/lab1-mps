@@ -80,7 +80,7 @@ public class NewsController {
 
         try {
             NewsBinaryWriter newsBinaryWriter = new NewsBinaryWriter();
-            newsBinaryWriter.removeAllNews(userInput.get(UserInput.EMAIL));
+//            newsBinaryWriter.removeAllNews(userInput.get(UserInput.EMAIL));
         } catch (CustomException ex) {
             errors.add(ex.getMessage());
         }
