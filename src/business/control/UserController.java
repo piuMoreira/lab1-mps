@@ -80,4 +80,23 @@ public class UserController {
         return dataAccess.findUserByEmail(userInput.get(UserInput.EMAIL));
     }
 
+    public List<String> updateUser (Map<UserInput, String> userInput) {
+        List<String> errors = new ArrayList<>();
+
+        try {
+            EmailValidator emailValidator = new EmailValidator();
+            emailValidator.validate(userInput);
+        } catch (CustomException ex) {
+            errors.add(ex.getMessage());
+        }
+
+        try {
+            binaryWriterFactory.updateUser(userInput.get(UserInput.EMAIL));
+        } catch (CustomException ex) {
+            errors.add(ex.getMessage());
+        }
+
+        return errors;
+    }
+
 }
