@@ -1,6 +1,12 @@
 package view;
 
 
+import business.control.Command;
+import business.control.command.CreateAnnouncementCommand;
+import business.control.command.CreateNewsCommand;
+import business.control.command.DeleteAnnouncementeCommand;
+import business.control.command.DeleteNewsCommand;
+import business.control.command.DeleteUserCommand;
 //import business.control.ControllerFacade;
 import view.console.AppConsole;
 import view.forms.*;
@@ -11,7 +17,7 @@ public class View {
     private AppConsole appConsole;
     private int state = 0;
     private Menu menu = new MainMenu();
-//    private ControllerFacade controllerFacade = new ControllerFacade();
+    private Command command;
 
     public View() {
         this.appConsole = new AppConsole();
@@ -35,8 +41,8 @@ public class View {
                     appConsole.write(addUserFormUI.getFields()[1]);
                     addUserForm.setPassword(appConsole.read());
 
-                    // TODO call controller
-//                    controllerFacade.createUser(addForm.getUserInput());
+//                    TODO: use userInput
+//                    command.execute(userInput);
 
                     this.menu = new MainMenu();
                     break;
@@ -49,8 +55,9 @@ public class View {
                     appConsole.write(removeUserFormUI.getFields()[0]);
                     removeUserForm.setEmail(appConsole.read());
 
-                    // TODO call controller
-//                    controllerFacade.deleteUser(removeForm.getUserInput());
+                    command = new DeleteUserCommand();
+                    
+                    command.execute(removeUserForm.getUserInput());
 
                     this.menu = new MainMenu();
                     break;
@@ -67,8 +74,9 @@ public class View {
                     appConsole.write(addNewsFormUI.getFields()[1]);
                     addNewsForm.setNews(appConsole.read());
 
-                    // TODO call controller
-//                    controllerFacade.createUser(addForm.getUserInput());
+                    command = new CreateNewsCommand();
+                    
+                    command.execute(addNewsForm.getUserInput());
 
                     this.menu = new MainMenu();
                     break;
@@ -81,8 +89,10 @@ public class View {
                     appConsole.write(removeNewsFormUI.getFields()[0]);
                     removeNewsForm.setNews(appConsole.read());
 
-                    // TODO call controller
-//                    controllerFacade.deleteUser(removeForm.getUserInput());
+                    command = new DeleteNewsCommand();
+                    
+                    command.execute(removeNewsForm.getUserInput());
+
 
                     this.menu = new MainMenu();
                     break;
@@ -99,8 +109,9 @@ public class View {
                     appConsole.write(addAnnouncementsFormUI.getFields()[1]);
                     addAnnouncementsForm.setAnnouncement(appConsole.read());
 
-                    // TODO call controller
-//                    controllerFacade.createUser(addForm.getUserInput());
+                    command = new CreateAnnouncementCommand();
+                    
+                    command.execute(addAnnouncementsForm.getUserInput());;
 
                     this.menu = new MainMenu();
                     break;
@@ -114,8 +125,9 @@ public class View {
                     appConsole.write(deleteAnnouncementsFormUI.getFields()[0]);
                     deleteAnnouncementsForm.setAnnouncement(appConsole.read());
 
-                    // TODO call controller
-//                    controllerFacade.deleteUser(removeForm.getUserInput());
+                    command = new DeleteAnnouncementeCommand();
+                    
+                    command.execute(deleteAnnouncementsForm.getUserInput());
 
                     this.menu = new MainMenu();
                     break;
