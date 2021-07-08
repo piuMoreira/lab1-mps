@@ -1,9 +1,11 @@
 package business.control;
 
 import java.util.ArrayList;
+import java.util.EmptyStackException;
 import java.util.List;
 import java.util.Map;
 
+import business.control.memento.UserCaretaker;
 import business.control.validation.exceptions.FileException;
 import business.control.validation.exceptions.InexistentUserException;
 import business.util.helpers.UserInput;
@@ -44,7 +46,7 @@ public class UserController {
         }
 
         try {
-            User user = new User(userInput.get(UserInput.EMAIL), userInput.get(UserInput.PASSWORD));
+            User user = new User(userInput.get(UserInput.NAME), userInput.get(UserInput.EMAIL), userInput.get(UserInput.PASSWORD));
             this.users.add(user);
 
             binaryWriterFactory.write(this.users);
@@ -91,7 +93,25 @@ public class UserController {
         }
 
         try {
+            UserCaretaker userCaretaker = new UserCaretaker(user);
+            userCaretaker.backup();
+
             binaryWriterFactory.update(user.getName(), userInput.get(UserInput.EMAIL));
+        } catch (CustomException ex) {
+            errors.add(ex.getMessage());
+        }
+
+        return errors;
+    }
+
+    public List<String> undo (User user) {
+        List<String> errors = new ArrayList<>();
+
+        try {
+            UserCaretaker userCaretaker = new UserCaretaker(user);
+            userCaretaker.undo();
+
+            binaryWriterFactory.update(user.getName(), user.getEmail());
         } catch (CustomException ex) {
             errors.add(ex.getMessage());
         }

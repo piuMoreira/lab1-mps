@@ -1,5 +1,6 @@
 package business.control.memento;
 
+import business.control.validation.exceptions.UnableToUndoException;
 import business.model.User;
 
 import java.util.Stack;
@@ -17,13 +18,13 @@ public class UserCaretaker {
         this.mementoStack.push(this.user.save());
     }
 
-    public void undo() throws EmptyStackException {
+    public void undo() throws UnableToUndoException {
         try {
             Memento poppedMemento = mementoStack.pop();
 
             this.user.restore(poppedMemento);
         } catch (EmptyStackException e) {
-            throw new EmptyStackException();
+            throw new UnableToUndoException("Não foi possível desfazer a ação.");
         }
     }
 }
