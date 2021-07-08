@@ -29,6 +29,8 @@ public abstract class BinaryWriter {
     public abstract void write(Object ob) throws CustomException;
     
     public abstract void remove(Object ob) throws CustomException;
+
+    public abstract void update(Object newOb, Object id) throws CustomException;
     
     protected int countLines() throws FileException{
         int lines = 0;

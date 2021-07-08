@@ -80,7 +80,7 @@ public class UserController {
         return dataAccess.findUserByEmail(userInput.get(UserInput.EMAIL));
     }
 
-    public List<String> updateUser (Map<UserInput, String> userInput) {
+    public List<String> update (User user, Map<UserInput, String> userInput) {
         List<String> errors = new ArrayList<>();
 
         try {
@@ -91,7 +91,7 @@ public class UserController {
         }
 
         try {
-            binaryWriterFactory.updateUser(userInput.get(UserInput.EMAIL));
+            binaryWriterFactory.update(user.getName(), userInput.get(UserInput.EMAIL));
         } catch (CustomException ex) {
             errors.add(ex.getMessage());
         }

@@ -5,4 +5,5 @@ public enum UserInput {
     PASSWORD,
     NEWS,
     ANNOUNCEMENT,
+    NAME
 }

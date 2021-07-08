@@ -1,7 +1,6 @@
 package infra.factory;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -10,7 +9,6 @@ import java.nio.file.StandardOpenOption;
 import java.util.List;
 import java.util.stream.Collectors;
 
-// import business.control.validation.exceptions.CustomException;
 import business.control.validation.exceptions.FileException;
 import business.control.validation.exceptions.InexistentUserException;
 import business.model.User;
@@ -66,6 +64,35 @@ public class UserBinaryWriter extends BinaryWriter {
             throw new FileException("Não foi possível alterar o arquivo.", e);
         }
 
+    }
+
+    @Override
+    public void update(Object user, Object userLogin) throws InexistentUserException, FileException {
+        String concreteUserLogin = (String)userLogin;
+        User concreteUser = (User) user;
+        int lines = countLines();
+        List<String> out;
+        String oldContent = "";
+
+        try {
+            out = Files.lines(filename).filter(line -> !line.contains(concreteUser.getName())).collect(Collectors.toList());
+            if (out.size() == lines)
+                throw new InexistentUserException("Usuário não encontrado.");
+            else {
+                // pega a linha que contém o nome
+                String targetLine = Files.lines(this.filename).filter(line -> line.contains(concreteUser.getName())).toString();
+
+                // guarda a linha
+                oldContent = oldContent + targetLine + System.lineSeparator();
+
+
+                String newContent = oldContent.replaceAll(concreteUser.getEmail(), concreteUserLogin);
+                FileWriter writer = new FileWriter(this.pathname);
+                writer.write(newContent);
+            }
+        } catch (IOException e) {
+            throw new FileException("Não foi possível alterar o arquivo.", e);
+        }
     }
 
 

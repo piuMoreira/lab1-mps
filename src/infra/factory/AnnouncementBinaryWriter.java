@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 // import business.control.validation.exceptions.CustomException;
+import business.control.validation.exceptions.CustomException;
 import business.control.validation.exceptions.FileException;
 import business.control.validation.exceptions.InexistentAnnouncementException;
 import business.model.Announcement;
@@ -68,6 +69,11 @@ public class AnnouncementBinaryWriter extends BinaryWriter {
             throw new FileException("Não foi possível alterar o arquivo.", e);
         }
 
+    }
+
+    @Override
+    public void update(Object announcemnt, Object ob) throws CustomException {
+        //
     }
 
 }
