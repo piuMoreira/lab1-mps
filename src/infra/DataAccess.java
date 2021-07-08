@@ -53,7 +53,7 @@ public class DataAccess {
                 System.out.println(usuario[0] + " " + usuario[1]);
                 if (usuario[0].equals(loginData)) {
                     bfr.close();
-                    return new User(usuario[0], usuario[1]);
+                    return new User(usuario[0], usuario[1], usuario[2]);
                 }
             } catch (IOException e) {
                 throw new FileException("Não foi possível ler o arquivo.", e);
@@ -85,9 +85,9 @@ public class DataAccess {
                 }
                 usuario = eof.split("\t");
                 System.out.println(usuario[0] + " " + usuario[1]);
-                if (usuario[1].equals(loginData)) {
+                if (usuario[2].equals(loginData)) {
                     bfr.close();
-                    User thisUser = new User(usuario[1], "irrelevante");
+                    User thisUser = new User(usuario[1], usuario[2], "irrelevante");
                     return new News(thisUser, usuario[0]);
                 }
             } catch (IOException e) {
@@ -122,7 +122,7 @@ public class DataAccess {
                 System.out.println(usuario[0] + " " + usuario[1]);
                 if (usuario[0].equals(title)) {
                     bfr.close();
-                    User thisUser = new User(usuario[1], "irrelevante");
+                    User thisUser = new User(usuario[1], usuario[2], "irrelevante");
                     return new News(thisUser, usuario[0]);
                 }
             } catch (IOException e) {
@@ -157,7 +157,7 @@ public class DataAccess {
                 System.out.println(usuario[0] + " " + usuario[1]);
                 if (usuario[0].equals(title)) {
                     bfr.close();
-                    User thisUser = new User(usuario[1], "irrelevante");
+                    User thisUser = new User(usuario[1], usuario[2], "irrelevante");
                     return new Announcement(thisUser, usuario[0],dateFormat.parse(usuario[2]));
                 }
             } catch (IOException e) {
@@ -190,9 +190,9 @@ public class DataAccess {
                 }
                 usuario = eof.split("\t");
                 System.out.println(usuario[0] + " " + usuario[1]);
-                if (usuario[1].equals(loginData)) {
+                if (usuario[2].equals(loginData)) {
                     bfr.close();
-                    User thisUser = new User(usuario[1], "irrelevante");
+                    User thisUser = new User(usuario[1], usuario[2], "irrelevante");
                     return new Announcement(thisUser, usuario[0],dateFormat.parse(usuario[2]));
                 }
             } catch (IOException e) {

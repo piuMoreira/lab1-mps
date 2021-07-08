@@ -32,10 +32,13 @@ public class NewsBinaryWriter extends BinaryWriter {
         byte tab[] = "\t".getBytes(StandardCharsets.UTF_8);
 
         byte email[] = concreteNews.getCreatedBy().getEmail().getBytes(StandardCharsets.UTF_8);
+        byte name[] = concreteNews.getCreatedBy().getName().getBytes(StandardCharsets.UTF_8);
         byte title[] = concreteNews.getTitle().getBytes(StandardCharsets.UTF_8);
 
         try {
             Files.write(filename, title, StandardOpenOption.APPEND);
+            Files.write(filename, tab, StandardOpenOption.APPEND);
+            Files.write(filename, name, StandardOpenOption.APPEND);
             Files.write(filename, tab, StandardOpenOption.APPEND);
             Files.write(filename, email, StandardOpenOption.APPEND);
             Files.write(filename, newline, StandardOpenOption.APPEND);

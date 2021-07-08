@@ -37,11 +37,14 @@ public class AnnouncementBinaryWriter extends BinaryWriter {
         byte tab[] = "\t".getBytes(StandardCharsets.UTF_8);
 
         byte email[] = concreteAnnoun.getCreatedBy().getEmail().getBytes(StandardCharsets.UTF_8);
+        byte name[] = concreteAnnoun.getCreatedBy().getName().getBytes(StandardCharsets.UTF_8);
         byte title[] = concreteAnnoun.getTitle().getBytes(StandardCharsets.UTF_8);
         byte date[] = dateFormat.format(concreteAnnoun.getCreatedAt()).getBytes(StandardCharsets.UTF_8);
 
         try {
             Files.write(filename, title, StandardOpenOption.APPEND);
+            Files.write(filename, tab, StandardOpenOption.APPEND);
+            Files.write(filename, name, StandardOpenOption.APPEND);
             Files.write(filename, tab, StandardOpenOption.APPEND);
             Files.write(filename, email, StandardOpenOption.APPEND);
             Files.write(filename, tab, StandardOpenOption.APPEND);

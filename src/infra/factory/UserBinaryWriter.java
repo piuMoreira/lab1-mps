@@ -34,8 +34,10 @@ public class UserBinaryWriter extends BinaryWriter {
             
             byte email[] = user.getEmail().getBytes(StandardCharsets.UTF_8);
             byte password[] = user.getPassword().getBytes(StandardCharsets.UTF_8);
-            
+            byte name[] = user.getName().getBytes(StandardCharsets.UTF_8);
+
             try {
+                Files.write(filename, name, StandardOpenOption.APPEND);
                 Files.write(filename, email, StandardOpenOption.APPEND);
                 Files.write(filename, tab, StandardOpenOption.APPEND);
                 Files.write(filename, password, StandardOpenOption.APPEND);
