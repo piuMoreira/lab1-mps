@@ -2,11 +2,7 @@ package view;
 
 
 import business.control.Command;
-import business.control.command.CreateAnnouncementCommand;
-import business.control.command.CreateNewsCommand;
-import business.control.command.DeleteAnnouncementeCommand;
-import business.control.command.DeleteNewsCommand;
-import business.control.command.DeleteUserCommand;
+import business.control.command.*;
 //import business.control.ControllerFacade;
 import view.console.AppConsole;
 import view.forms.*;
@@ -61,7 +57,36 @@ public class View {
 
                     this.menu = new MainMenu();
                     break;
+                case CONSTANTS.UPDATE_USER_FORM:
+                    appConsole.clear();
+                    UpdateUserFormUI updateUserFormUI = new UpdateUserFormUI("Update User");
+                    UpdateUserForm updateUserForm = new UpdateUserForm();
+                    appConsole.write(updateUserFormUI.getFormHeader());
 
+                    appConsole.write(updateUserFormUI.getFields()[0]);
+                    updateUserForm.setEmail(appConsole.read());
+
+                    command = new UpdateUserCommand();
+
+                    command.execute(updateUserForm.getUserInput());
+
+                    this.menu = new MainMenu();
+                    break;
+                case CONSTANTS.UNDO_USER_UPDATE_FORM:
+                    appConsole.clear();
+                    UndoUserUpdateFormUI undoUserUpdateFormUI = new UndoUserUpdateFormUI("Update User");
+                    UndoUserUpdateForm undoUserUpdateForm = new UndoUserUpdateForm();
+                    appConsole.write(undoUserUpdateFormUI.getFormHeader());
+
+                    appConsole.write(undoUserUpdateFormUI.getFields()[0]);
+                    undoUserUpdateForm.setEmail(appConsole.read());
+
+                    command = new UndoUserUpdateCommand();
+
+                    command.execute(undoUserUpdateForm.getUserInput());
+
+                    this.menu = new MainMenu();
+                    break;
                 case CONSTANTS.ADD_NEWS_FORM:
                     appConsole.clear();
                     AddNewsFormUI addNewsFormUI = new AddNewsFormUI("Add News");
