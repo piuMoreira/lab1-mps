@@ -37,8 +37,8 @@ public class View {
                     appConsole.write(addUserFormUI.getFields()[1]);
                     addUserForm.setPassword(appConsole.read());
 
-//                    TODO: use userInput
-//                    command.execute(userInput);
+                    CreateUserCommand command = new CreateUserCommand();
+                    command.execute(addUserForm.getUserInput());
 
                     this.menu = new MainMenu();
                     break;
@@ -51,9 +51,9 @@ public class View {
                     appConsole.write(removeUserFormUI.getFields()[0]);
                     removeUserForm.setEmail(appConsole.read());
 
-                    command = new DeleteUserCommand();
-                    
-                    command.execute(removeUserForm.getUserInput());
+                    DeleteUserCommand deleteUserCommand = new DeleteUserCommand();
+
+                    deleteUserCommand.execute(removeUserForm.getUserInput());
 
                     this.menu = new MainMenu();
                     break;
@@ -66,9 +66,9 @@ public class View {
                     appConsole.write(updateUserFormUI.getFields()[0]);
                     updateUserForm.setEmail(appConsole.read());
 
-                    command = new UpdateUserCommand();
+                    UpdateUserCommand updateUserCommand = new UpdateUserCommand();
 
-                    command.execute(updateUserForm.getUserInput());
+                    updateUserCommand.execute(updateUserForm.getUserInput());
 
                     this.menu = new MainMenu();
                     break;
@@ -81,9 +81,9 @@ public class View {
                     appConsole.write(undoUserUpdateFormUI.getFields()[0]);
                     undoUserUpdateForm.setEmail(appConsole.read());
 
-                    command = new UndoUserUpdateCommand();
+                    UndoUserUpdateCommand undoUserUpdateCommand = new UndoUserUpdateCommand();
 
-                    command.execute(undoUserUpdateForm.getUserInput());
+                    undoUserUpdateCommand.execute(undoUserUpdateForm.getUserInput());
 
                     this.menu = new MainMenu();
                     break;
@@ -99,9 +99,9 @@ public class View {
                     appConsole.write(addNewsFormUI.getFields()[1]);
                     addNewsForm.setNews(appConsole.read());
 
-                    command = new CreateNewsCommand();
-                    
-                    command.execute(addNewsForm.getUserInput());
+                    CreateNewsCommand createNewsCommand = new CreateNewsCommand();
+
+                    createNewsCommand.execute(addNewsForm.getUserInput());
 
                     this.menu = new MainMenu();
                     break;
@@ -114,9 +114,9 @@ public class View {
                     appConsole.write(removeNewsFormUI.getFields()[0]);
                     removeNewsForm.setNews(appConsole.read());
 
-                    command = new DeleteNewsCommand();
-                    
-                    command.execute(removeNewsForm.getUserInput());
+                    DeleteNewsCommand deleteNewsCommand = new DeleteNewsCommand();
+
+                    deleteNewsCommand.execute(removeNewsForm.getUserInput());
 
 
                     this.menu = new MainMenu();
@@ -134,9 +134,9 @@ public class View {
                     appConsole.write(addAnnouncementsFormUI.getFields()[1]);
                     addAnnouncementsForm.setAnnouncement(appConsole.read());
 
-                    command = new CreateAnnouncementCommand();
-                    
-                    command.execute(addAnnouncementsForm.getUserInput());;
+                    CreateAnnouncementCommand createAnnouncementCommand = new CreateAnnouncementCommand();
+
+                    createAnnouncementCommand.execute(addAnnouncementsForm.getUserInput());;
 
                     this.menu = new MainMenu();
                     break;
@@ -150,9 +150,9 @@ public class View {
                     appConsole.write(deleteAnnouncementsFormUI.getFields()[0]);
                     deleteAnnouncementsForm.setAnnouncement(appConsole.read());
 
-                    command = new DeleteAnnouncementeCommand();
-                    
-                    command.execute(deleteAnnouncementsForm.getUserInput());
+                    DeleteAnnouncementeCommand deleteAnnouncementeCommand = new DeleteAnnouncementeCommand();
+
+                    deleteAnnouncementeCommand.execute(deleteAnnouncementsForm.getUserInput());
 
                     this.menu = new MainMenu();
                     break;
