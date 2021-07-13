@@ -11,7 +11,7 @@ import java.util.Map;
 public class NewsValidator implements Validator {
 
     @Override
-    public List<String> validate(Map<UserInput, String> value) throws CustomException {
+    public void validate(Map<UserInput, String> value) throws CustomException {
         String title = value.get(UserInput.NEWS);
 
         if (title.length() == 0) {
@@ -25,8 +25,6 @@ public class NewsValidator implements Validator {
         if (title.matches(".*\\d")) {
             throw new InvalidParamException("O título da notícia não deve conter números");
         }
-
-        return null;
     }
 
 }

@@ -4,11 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import business.control.validation.AnnouncementValidator;
-import business.control.validation.EmailValidator;
-import business.control.validation.NewsValidator;
-import business.control.validation.PasswordValidator;
-import business.control.validation.Validator;
+import business.control.validation.*;
 import business.util.helpers.UserInput;
 
 public interface Command {
@@ -20,16 +16,22 @@ public interface Command {
         add(new PasswordValidator());
     }};
 
+	ValidationComposite userValidationComposite = new ValidationComposite(userValidators);
+
     public static final List<Validator> newsValidators = new ArrayList<>() {{
         add(new NewsValidator());
     }};
+
+    ValidationComposite newsValidationComposite = new ValidationComposite(newsValidators);
 
     public static final List<Validator> announcementValidators = new ArrayList<>() {{
         add(new AnnouncementValidator());
     }};
 
-    public static final UserController userController = new UserController(userValidators);
-    public static final NewsController newsController = new NewsController(newsValidators);
-    public static final AnnouncementController announcementController = new AnnouncementController(announcementValidators);
+    ValidationComposite announcementValidationComposite = new ValidationComposite(announcementValidators);
+
+    public static final UserController userController = new UserController(userValidationComposite);
+    public static final NewsController newsController = new NewsController(newsValidationComposite);
+    public static final AnnouncementController announcementController = new AnnouncementController(announcementValidationComposite);
 
 }

@@ -15,12 +15,8 @@ public class CreateNewsCommand implements Command {
 	public List<String> execute(Map<UserInput, String> userInput) {
 		List<String> errors = new ArrayList<>();
 
-        try {
-            User user = userController.findUserByEmail(userInput);
-            newsController.add(user, userInput);
-        } catch (CustomException ex) {
-            errors.add(ex.getMessage());
-        }
+		User user = this.userController.findUserByEmail(userInput);
+        errors.addAll(newsController.add(user, userInput));
 
         return errors;
 		

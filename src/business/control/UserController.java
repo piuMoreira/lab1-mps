@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import business.control.memento.UserCaretaker;
+import business.control.validation.ValidationComposite;
 import business.control.validation.exceptions.FileException;
 import business.control.validation.exceptions.InexistentUserException;
 import business.util.helpers.UserInput;
@@ -19,12 +20,12 @@ import infra.factory.UserBinaryWriter;
 
 public class UserController {
 
-    private List<Validator> validators;
+    private ValidationComposite validation;
     private List<User> users;
     private BinaryWriter binaryWriterFactory;
 
-    public UserController(List<Validator> validators) {
-        this.validators = validators;
+    public UserController(ValidationComposite validation) {
+        this.validation = validation;
         this.users = new ArrayList<>();
         try {
 			binaryWriterFactory = new UserBinaryWriter();
@@ -38,9 +39,7 @@ public class UserController {
         List<String> errors = new ArrayList<>();
 
         try {
-            for (Validator validator : this.validators) {
-                validator.validate(userInput);
-            }
+            this.validation.validate(userInput);
         } catch (CustomException ex) {
             errors.add(ex.getMessage());
         }

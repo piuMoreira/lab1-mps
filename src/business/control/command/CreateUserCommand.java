@@ -13,7 +13,7 @@ public class CreateUserCommand implements Command {
 	public List<String> execute(Map<UserInput, String> userInput) {
 
         List<String> errors = new ArrayList<>();
-        errors.addAll( userController.add(userInput) );
+        errors.addAll( this.userController.add(userInput) );
 
         return errors;
 	}

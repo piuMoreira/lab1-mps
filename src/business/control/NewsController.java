@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import business.control.validation.NewsValidator;
+import business.control.validation.ValidationComposite;
 import business.util.helpers.UserInput;
 import infra.factory.BinaryWriter;
 import infra.factory.NewsBinaryWriter;
@@ -16,11 +17,11 @@ import business.model.News;
 import business.model.User;
 
 public class NewsController {
-    private List<Validator> validators;
+    private ValidationComposite validation;
     private BinaryWriter binaryWriterFactory;
     
-    public NewsController(List<Validator> validators) {
-        this.validators = validators;
+    public NewsController(ValidationComposite validation) {
+        this.validation = validation;
         try {
 			binaryWriterFactory = new NewsBinaryWriter();
 		} catch (FileException e) {
@@ -32,9 +33,7 @@ public class NewsController {
         List<String> errors = new ArrayList<>();
 
         try {
-            for (Validator validator : this.validators) {
-                validator.validate(userInput);
-            }
+            this.validation.validate(userInput);
         } catch (CustomException ex) {
             errors.add(ex.getMessage());
         }
@@ -53,8 +52,7 @@ public class NewsController {
         List<String> errors = new ArrayList<>();
 
         try {
-            NewsValidator newsValidator = new NewsValidator();
-            newsValidator.validate(userInput);
+            this.validation.validate(userInput);
         } catch (CustomException ex) {
             errors.add(ex.getMessage());
         }
@@ -80,6 +78,7 @@ public class NewsController {
 
         try {
             NewsBinaryWriter newsBinaryWriter = new NewsBinaryWriter();
+            // TODO: criar função para remover todas as news de um usuário.
 //            newsBinaryWriter.removeAllNews(userInput.get(UserInput.EMAIL));
         } catch (CustomException ex) {
             errors.add(ex.getMessage());

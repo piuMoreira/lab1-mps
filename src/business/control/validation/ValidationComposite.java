@@ -3,30 +3,25 @@ package business.control.validation;
 import business.control.validation.exceptions.CustomException;
 import business.util.helpers.UserInput;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class ValidationComposite implements Validator {
 
-    private ArrayList<Validator> validators = new ArrayList<>();
+    private List<Validator> validators;
 
-    public ValidationComposite(ArrayList<Validator> validators) {
+    public ValidationComposite(List<Validator> validators) {
         this.validators = validators;
     }
 
-    public  List<String> validate(Map<UserInput, String> userInput) {
-        List<String> errors = new ArrayList<>();
-
+    public void validate(Map<UserInput, String> userInput) throws CustomException {
         try {
             for (Validator validator : this.validators) {
                 validator.validate(userInput);
             }
         } catch (CustomException ex) {
-            errors.add(ex.getMessage());
+            throw new CustomException(ex.getMessage());
         }
-
-        return errors;
     }
 
 }

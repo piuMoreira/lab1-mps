@@ -7,5 +7,5 @@ import business.util.helpers.UserInput;
 import business.control.validation.exceptions.CustomException;
 
 public interface Validator {
-    public List<String> validate(Map<UserInput, String> value) throws CustomException;
+    public void validate(Map<UserInput, String> value) throws CustomException;
 }

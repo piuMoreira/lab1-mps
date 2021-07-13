@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class AnnouncementValidator implements Validator {
     @Override
-    public List<String> validate(Map<UserInput, String> value) throws CustomException {
+    public void validate(Map<UserInput, String> value) throws CustomException {
         String title = value.get(UserInput.ANNOUNCEMENT);
 
         if (title.length() == 0) {
@@ -20,7 +20,5 @@ public class AnnouncementValidator implements Validator {
         if (title.length() > 30) {
             throw new InvalidParamException("O título do edital deve ter no máximo 15 caracteres");
         }
-
-        return null;
     }
 }

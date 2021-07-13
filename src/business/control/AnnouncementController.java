@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import business.control.validation.EmailValidator;
+import business.control.validation.ValidationComposite;
 import business.util.helpers.UserInput;
 import infra.factory.AnnouncementBinaryWriter;
 import infra.factory.BinaryWriter;
@@ -18,11 +19,11 @@ import business.model.User;
 
 public class AnnouncementController {
 
-    private List<Validator> validators;
+    private ValidationComposite validation;
     private BinaryWriter binaryWriterFactory;
 
-    public AnnouncementController(List<Validator> validators) {
-        this.validators = validators;
+    public AnnouncementController(ValidationComposite validation) {
+        this.validation = validation;
         try {
 			binaryWriterFactory = new AnnouncementBinaryWriter();
 		} catch (FileException e) {
@@ -35,9 +36,7 @@ public class AnnouncementController {
         List<String> errors = new ArrayList<>();
 
         try {
-            for (Validator validator : this.validators) {
-                validator.validate(userInput);
-            }
+            this.validation.validate(userInput);
         } catch (CustomException ex) {
             errors.add(ex.getMessage());
         }
@@ -57,8 +56,7 @@ public class AnnouncementController {
         List<String> errors = new ArrayList<>();
 
         try {
-            AnnouncementValidator announcementValidator = new AnnouncementValidator();
-            announcementValidator.validate(userInput);
+            this.validation.validate(userInput);
         } catch (CustomException ex) {
             errors.add(ex.getMessage());
         }
@@ -84,6 +82,7 @@ public class AnnouncementController {
 
         try {
             AnnouncementBinaryWriter announcementBinaryWriter = new AnnouncementBinaryWriter();
+            // TODO: criar função para remover todos os announcements de um user.
 //            announcementBinaryWriter.removeAllAnnouncements(userInput.get(UserInput.ANNOUNCEMENT));
         } catch (CustomException ex) {
             errors.add(ex.getMessage());
