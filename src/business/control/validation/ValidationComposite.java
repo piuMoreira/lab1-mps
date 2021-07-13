@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class ValidationComposite {
+public class ValidationComposite implements Validator {
 
     private ArrayList<Validator> validators = new ArrayList<>();
 
@@ -15,7 +15,7 @@ public class ValidationComposite {
         this.validators = validators;
     }
 
-    public List<String> validate(Map<UserInput, String> userInput) {
+    public  List<String> validate(Map<UserInput, String> userInput) {
         List<String> errors = new ArrayList<>();
 
         try {

@@ -1,5 +1,6 @@
 package business.control.validation;
 
+import java.util.List;
 import java.util.Map;
 
 import business.util.helpers.UserInput;
@@ -9,7 +10,7 @@ import business.control.validation.exceptions.InvalidParamException;
 public class PasswordValidator implements Validator {
 
     @Override
-    public void validate(Map<UserInput, String> value) throws CustomException {
+    public List<String> validate(Map<UserInput, String> value) throws CustomException {
         String password = value.get(UserInput.PASSWORD);
 
         if (password.length() < 8) {
@@ -23,5 +24,7 @@ public class PasswordValidator implements Validator {
         if (password.matches("(?=(.*\\d){2})(?=(.*[A-Za-z]))ˆ.*")) {
             throw new InvalidParamException("A deve ter letras e no mínimo 2 números");
         }
+
+        return null;
     }
 }
