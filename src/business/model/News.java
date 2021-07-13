@@ -13,7 +13,7 @@ public class News {
     }
 
     public News() {
-        this.createdBy = new User("", "");
+        this.createdBy = new User("", "","");
         this.title = "";
     }
 
