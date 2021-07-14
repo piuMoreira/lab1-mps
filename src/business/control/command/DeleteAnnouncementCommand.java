@@ -10,11 +10,11 @@ import business.control.validation.exceptions.CustomException;
 import business.model.User;
 import business.util.helpers.UserInput;
 
-public class CreateNewsCommand implements Command {
+public class DeleteAnnouncementCommand implements Command {
 
 	@Override
 	public List<String> execute(SingletonFacade facade, Map<UserInput, String> userInput) {
-		return facade.createNews(userInput);
+        return facade.deleteAnnouncement(userInput);
 	}
 
 }

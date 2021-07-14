@@ -2,6 +2,7 @@ package view;
 
 
 import business.control.Command;
+import business.control.SingletonFacade;
 import business.control.command.*;
 //import business.control.ControllerFacade;
 import view.console.AppConsole;
@@ -11,12 +12,14 @@ import view.menu.*;
 
 public class View {
     private AppConsole appConsole;
+    private SingletonFacade facade;
     private int state = 0;
     private Menu menu = new MainMenu();
     private Command command;
 
     public View() {
         this.appConsole = new AppConsole();
+        this.facade = SingletonFacade.getInstance();
     }
 
     public void run() throws InterruptedException {
@@ -38,7 +41,7 @@ public class View {
                     addUserForm.setPassword(appConsole.read());
 
                     CreateUserCommand command = new CreateUserCommand();
-                    command.execute(addUserForm.getUserInput());
+                    command.execute(this.facade, addUserForm.getUserInput());
 
                     this.menu = new MainMenu();
                     break;
@@ -53,7 +56,7 @@ public class View {
 
                     DeleteUserCommand deleteUserCommand = new DeleteUserCommand();
 
-                    deleteUserCommand.execute(removeUserForm.getUserInput());
+                    deleteUserCommand.execute(this.facade, removeUserForm.getUserInput());
 
                     this.menu = new MainMenu();
                     break;
@@ -68,7 +71,7 @@ public class View {
 
                     UpdateUserCommand updateUserCommand = new UpdateUserCommand();
 
-                    updateUserCommand.execute(updateUserForm.getUserInput());
+                    updateUserCommand.execute(this.facade, updateUserForm.getUserInput());
 
                     this.menu = new MainMenu();
                     break;
@@ -83,7 +86,7 @@ public class View {
 
                     UndoUserUpdateCommand undoUserUpdateCommand = new UndoUserUpdateCommand();
 
-                    undoUserUpdateCommand.execute(undoUserUpdateForm.getUserInput());
+                    undoUserUpdateCommand.execute(this.facade, undoUserUpdateForm.getUserInput());
 
                     this.menu = new MainMenu();
                     break;
@@ -101,7 +104,7 @@ public class View {
 
                     CreateNewsCommand createNewsCommand = new CreateNewsCommand();
 
-                    createNewsCommand.execute(addNewsForm.getUserInput());
+                    createNewsCommand.execute(this.facade, addNewsForm.getUserInput());
 
                     this.menu = new MainMenu();
                     break;
@@ -116,7 +119,7 @@ public class View {
 
                     DeleteNewsCommand deleteNewsCommand = new DeleteNewsCommand();
 
-                    deleteNewsCommand.execute(removeNewsForm.getUserInput());
+                    deleteNewsCommand.execute(this.facade, removeNewsForm.getUserInput());
 
 
                     this.menu = new MainMenu();
@@ -136,7 +139,7 @@ public class View {
 
                     CreateAnnouncementCommand createAnnouncementCommand = new CreateAnnouncementCommand();
 
-                    createAnnouncementCommand.execute(addAnnouncementsForm.getUserInput());;
+                    createAnnouncementCommand.execute(this.facade, addAnnouncementsForm.getUserInput());;
 
                     this.menu = new MainMenu();
                     break;
@@ -150,9 +153,9 @@ public class View {
                     appConsole.write(deleteAnnouncementsFormUI.getFields()[0]);
                     deleteAnnouncementsForm.setAnnouncement(appConsole.read());
 
-                    DeleteAnnouncementeCommand deleteAnnouncementeCommand = new DeleteAnnouncementeCommand();
+                    DeleteAnnouncementCommand deleteAnnouncementCommand = new DeleteAnnouncementCommand();
 
-                    deleteAnnouncementeCommand.execute(deleteAnnouncementsForm.getUserInput());
+                    deleteAnnouncementCommand.execute(this.facade, deleteAnnouncementsForm.getUserInput());
 
                     this.menu = new MainMenu();
                     break;
