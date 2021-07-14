@@ -1,6 +1,7 @@
 package business.control.command;
 
 import business.control.Command;
+import business.control.SingletonFacade;
 import business.util.helpers.UserInput;
 
 import java.util.ArrayList;
@@ -9,13 +10,17 @@ import java.util.Map;
 
 public class CreateUserCommand implements Command {
 
+	SingletonFacade facade;
+	Map<UserInput, String> userInput;
+
+	public CreateUserCommand(SingletonFacade facade, Map<UserInput, String> userInput) {
+		this.facade = facade;
+		this.userInput = userInput;
+	}
+
 	@Override
-	public List<String> execute(Map<UserInput, String> userInput) {
-
-        List<String> errors = new ArrayList<>();
-        errors.addAll( this.userController.add(userInput) );
-
-        return errors;
+	public List<String> execute() {
+        return this.facade.createUser(this.userInput);
 	}
 
 }

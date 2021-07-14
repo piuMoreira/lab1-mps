@@ -5,24 +5,24 @@ import java.util.List;
 import java.util.Map;
 
 import business.control.Command;
+import business.control.SingletonFacade;
 import business.control.validation.exceptions.CustomException;
 import business.model.User;
 import business.util.helpers.UserInput;
 
 public class DeleteNewsCommand implements Command {
 
+	SingletonFacade facade;
+	Map<UserInput, String> userInput;
+
+	public DeleteNewsCommand(SingletonFacade facade, Map<UserInput, String> userInput) {
+		this.facade = facade;
+		this.userInput = userInput;
+	}
+
 	@Override
-	public List<String> execute(Map<UserInput, String> userInput) {
-		List<String> errors = new ArrayList<>();
-
-        try {
-            User user = userController.findUserByEmail(userInput);
-            newsController.delete(user, userInput);
-        } catch (CustomException ex) {
-            errors.add(ex.getMessage());
-        }
-
-        return errors;
+	public List<String> execute() {
+        return this.facade.deleteNews(this.userInput);
 	}
 
 }

@@ -2,6 +2,7 @@ package view;
 
 
 import business.control.Command;
+import business.control.SingletonFacade;
 import business.control.command.*;
 //import business.control.ControllerFacade;
 import view.console.AppConsole;
@@ -11,12 +12,16 @@ import view.menu.*;
 
 public class View {
     private AppConsole appConsole;
+    private SingletonFacade facade;
+    private Executor executor;
     private int state = 0;
     private Menu menu = new MainMenu();
     private Command command;
 
     public View() {
         this.appConsole = new AppConsole();
+        this.facade = SingletonFacade.getInstance();
+        this.executor = new Executor();
     }
 
     public void run() throws InterruptedException {
@@ -37,8 +42,8 @@ public class View {
                     appConsole.write(addUserFormUI.getFields()[1]);
                     addUserForm.setPassword(appConsole.read());
 
-                    CreateUserCommand command = new CreateUserCommand();
-                    command.execute(addUserForm.getUserInput());
+                    CreateUserCommand createUserCommand = new CreateUserCommand(this.facade, addUserForm.getUserInput());
+                    this.executor.execute(createUserCommand);
 
                     this.menu = new MainMenu();
                     break;
@@ -51,9 +56,8 @@ public class View {
                     appConsole.write(removeUserFormUI.getFields()[0]);
                     removeUserForm.setEmail(appConsole.read());
 
-                    DeleteUserCommand deleteUserCommand = new DeleteUserCommand();
-
-                    deleteUserCommand.execute(removeUserForm.getUserInput());
+                    DeleteUserCommand deleteUserCommand = new DeleteUserCommand(this.facade, removeUserForm.getUserInput());
+                    this.executor.execute(deleteUserCommand);
 
                     this.menu = new MainMenu();
                     break;
@@ -66,9 +70,8 @@ public class View {
                     appConsole.write(updateUserFormUI.getFields()[0]);
                     updateUserForm.setEmail(appConsole.read());
 
-                    UpdateUserCommand updateUserCommand = new UpdateUserCommand();
-
-                    updateUserCommand.execute(updateUserForm.getUserInput());
+                    UpdateUserCommand updateUserCommand = new UpdateUserCommand(this.facade, updateUserForm.getUserInput());
+                    this.executor.execute(updateUserCommand);
 
                     this.menu = new MainMenu();
                     break;
@@ -81,9 +84,8 @@ public class View {
                     appConsole.write(undoUserUpdateFormUI.getFields()[0]);
                     undoUserUpdateForm.setEmail(appConsole.read());
 
-                    UndoUserUpdateCommand undoUserUpdateCommand = new UndoUserUpdateCommand();
-
-                    undoUserUpdateCommand.execute(undoUserUpdateForm.getUserInput());
+                    UndoUserUpdateCommand undoUserUpdateCommand = new UndoUserUpdateCommand(this.facade, undoUserUpdateForm.getUserInput());
+                    this.executor.execute(undoUserUpdateCommand);
 
                     this.menu = new MainMenu();
                     break;
@@ -99,9 +101,8 @@ public class View {
                     appConsole.write(addNewsFormUI.getFields()[1]);
                     addNewsForm.setNews(appConsole.read());
 
-                    CreateNewsCommand createNewsCommand = new CreateNewsCommand();
-
-                    createNewsCommand.execute(addNewsForm.getUserInput());
+                    CreateNewsCommand createNewsCommand = new CreateNewsCommand(this.facade, addNewsForm.getUserInput());
+                    this.executor.execute(createNewsCommand);
 
                     this.menu = new MainMenu();
                     break;
@@ -114,10 +115,8 @@ public class View {
                     appConsole.write(removeNewsFormUI.getFields()[0]);
                     removeNewsForm.setNews(appConsole.read());
 
-                    DeleteNewsCommand deleteNewsCommand = new DeleteNewsCommand();
-
-                    deleteNewsCommand.execute(removeNewsForm.getUserInput());
-
+                    DeleteNewsCommand deleteNewsCommand = new DeleteNewsCommand(this.facade, removeNewsForm.getUserInput());
+                    this.executor.execute(deleteNewsCommand);
 
                     this.menu = new MainMenu();
                     break;
@@ -134,9 +133,8 @@ public class View {
                     appConsole.write(addAnnouncementsFormUI.getFields()[1]);
                     addAnnouncementsForm.setAnnouncement(appConsole.read());
 
-                    CreateAnnouncementCommand createAnnouncementCommand = new CreateAnnouncementCommand();
-
-                    createAnnouncementCommand.execute(addAnnouncementsForm.getUserInput());;
+                    CreateAnnouncementCommand createAnnouncementCommand = new CreateAnnouncementCommand(this.facade, addAnnouncementsForm.getUserInput());
+                    this.executor.execute(createAnnouncementCommand);
 
                     this.menu = new MainMenu();
                     break;
@@ -150,9 +148,8 @@ public class View {
                     appConsole.write(deleteAnnouncementsFormUI.getFields()[0]);
                     deleteAnnouncementsForm.setAnnouncement(appConsole.read());
 
-                    DeleteAnnouncementeCommand deleteAnnouncementeCommand = new DeleteAnnouncementeCommand();
-
-                    deleteAnnouncementeCommand.execute(deleteAnnouncementsForm.getUserInput());
+                    DeleteAnnouncementCommand deleteAnnouncementCommand = new DeleteAnnouncementCommand(this.facade, deleteAnnouncementsForm.getUserInput());
+                    this.executor.execute(deleteAnnouncementCommand);
 
                     this.menu = new MainMenu();
                     break;

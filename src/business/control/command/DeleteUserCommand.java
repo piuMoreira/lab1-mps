@@ -5,19 +5,22 @@ import java.util.List;
 import java.util.Map;
 
 import business.control.Command;
+import business.control.SingletonFacade;
 import business.util.helpers.UserInput;
 
 public class DeleteUserCommand implements Command {
 
+	SingletonFacade facade;
+	Map<UserInput, String> userInput;
+
+	public DeleteUserCommand(SingletonFacade facade, Map<UserInput, String> userInput) {
+		this.facade = facade;
+		this.userInput = userInput;
+	}
+
 	@Override
-	public List<String> execute(Map<UserInput, String> userInput) {
-
-        List<String> errors = new ArrayList<>();
-        errors.addAll( userController.delete(userInput) );
-        errors.addAll( newsController.deleteAll(userInput) );
-        errors.addAll( announcementController.deleteAll(userInput) );
-
-        return errors;
+	public List<String> execute() {
+        return this.facade.deleteUser(this.userInput);
 	}
 
 }
