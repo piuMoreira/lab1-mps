@@ -8,5 +8,5 @@ import business.control.validation.*;
 import business.util.helpers.UserInput;
 
 public interface Command {
-	public List<String> execute(SingletonFacade facade, Map<UserInput, String> userInput);
+	List<String> execute();
 }

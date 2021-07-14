@@ -12,9 +12,17 @@ import business.util.helpers.UserInput;
 
 public class CreateNewsCommand implements Command {
 
+	SingletonFacade facade;
+	Map<UserInput, String> userInput;
+
+	public CreateNewsCommand(SingletonFacade facade, Map<UserInput, String> userInput) {
+		this.facade = facade;
+		this.userInput = userInput;
+	}
+
 	@Override
-	public List<String> execute(SingletonFacade facade, Map<UserInput, String> userInput) {
-		return facade.createNews(userInput);
+	public List<String> execute() {
+		return this.facade.createNews(this.userInput);
 	}
 
 }

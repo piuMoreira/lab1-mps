@@ -12,9 +12,17 @@ import java.util.Map;
 
 public class UndoUserUpdateCommand implements Command {
 
+    SingletonFacade facade;
+    Map<UserInput, String> userInput;
+
+    public UndoUserUpdateCommand(SingletonFacade facade, Map<UserInput, String> userInput) {
+        this.facade = facade;
+        this.userInput = userInput;
+    }
+
     @Override
-    public List<String> execute(SingletonFacade facade, Map<UserInput, String> userInput) {
-        return facade.undoUserUpdate(userInput);
+    public List<String> execute() {
+        return this.facade.undoUserUpdate(this.userInput);
     }
 
 }

@@ -10,9 +10,17 @@ import java.util.Map;
 
 public class CreateUserCommand implements Command {
 
+	SingletonFacade facade;
+	Map<UserInput, String> userInput;
+
+	public CreateUserCommand(SingletonFacade facade, Map<UserInput, String> userInput) {
+		this.facade = facade;
+		this.userInput = userInput;
+	}
+
 	@Override
-	public List<String> execute(SingletonFacade facade, Map<UserInput, String> userInput) {
-        return facade.createUser(userInput);
+	public List<String> execute() {
+        return this.facade.createUser(this.userInput);
 	}
 
 }

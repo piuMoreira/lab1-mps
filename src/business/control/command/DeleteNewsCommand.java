@@ -12,9 +12,17 @@ import business.util.helpers.UserInput;
 
 public class DeleteNewsCommand implements Command {
 
+	SingletonFacade facade;
+	Map<UserInput, String> userInput;
+
+	public DeleteNewsCommand(SingletonFacade facade, Map<UserInput, String> userInput) {
+		this.facade = facade;
+		this.userInput = userInput;
+	}
+
 	@Override
-	public List<String> execute(SingletonFacade facade, Map<UserInput, String> userInput) {
-        return facade.deleteNews(userInput);
+	public List<String> execute() {
+        return this.facade.deleteNews(this.userInput);
 	}
 
 }
