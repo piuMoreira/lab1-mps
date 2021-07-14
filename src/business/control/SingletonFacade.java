@@ -28,13 +28,9 @@ public class SingletonFacade {
         add(new PasswordValidator());
     }};
 
-    public static final List<Validator> newsValidators = new ArrayList<>() {{
-        add(new NewsValidator());
-    }};
+    public static final NewsValidator newsValidator = new NewsValidator();
 
-    public static final List<Validator> announcementValidators = new ArrayList<>() {{
-        add(new AnnouncementValidator());
-    }};
+    public static final AnnouncementValidator announcementValidator = new AnnouncementValidator();
 
     public static final ValidationComposite validationComposite = new ValidationComposite();
 
@@ -59,12 +55,12 @@ public class SingletonFacade {
         return userValidators;
     }
 
-    public static synchronized List<Validator> getNewsValidators() {
-        return newsValidators;
+    public static synchronized NewsValidator getNewsValidator() {
+        return newsValidator;
     }
 
-    public static synchronized List<Validator> getAnnouncementValidators() {
-        return announcementValidators;
+    public static synchronized AnnouncementValidator getAnnouncementValidator() {
+        return announcementValidator;
     }
 
     public static synchronized ValidationComposite getValidationComposite() {
@@ -94,10 +90,16 @@ public class SingletonFacade {
         NewsController newsController = SingletonFacade.getNewsController();
         AnnouncementController announcementController = SingletonFacade.getAnnouncementController();
 
+        ValidationComposite validationComposite = SingletonFacade.getValidationComposite();
+        // EmailValidator
+        validationComposite.add(SingletonFacade.getUserValidators().get(0));
+
         List<String> errors = new ArrayList<>();
         errors.addAll( userController.delete(userInput) );
         errors.addAll( newsController.deleteAll(userInput) );
         errors.addAll( announcementController.deleteAll(userInput) );
+
+        validationComposite.removeAll();
 
         return errors;
     }
@@ -106,11 +108,16 @@ public class SingletonFacade {
         List<String> errors = new ArrayList<>();
 
         try {
+            ValidationComposite validationComposite = SingletonFacade.getValidationComposite();
+            validationComposite.add(SingletonFacade.getNewsValidator());
+
             User user = SingletonFacade.getUserController().findUserByEmail(userInput);
-            SingletonFacade.getNewsController().add(user, userInput);
+            errors.addAll(SingletonFacade.getNewsController().add(user, userInput));
         } catch (CustomException ex) {
             errors.add(ex.getMessage());
         }
+
+        validationComposite.removeAll();
 
         return errors;
     }
@@ -119,11 +126,16 @@ public class SingletonFacade {
         List<String> errors = new ArrayList<>();
 
         try {
+            ValidationComposite validationComposite = SingletonFacade.getValidationComposite();
+            validationComposite.add(SingletonFacade.getNewsValidator());
+
             User user = SingletonFacade.getUserController().findUserByEmail(userInput);
             SingletonFacade.getNewsController().delete(user, userInput);
         } catch (CustomException ex) {
             errors.add(ex.getMessage());
         }
+
+        validationComposite.removeAll();
 
         return errors;
     }
@@ -132,11 +144,16 @@ public class SingletonFacade {
         List<String> errors = new ArrayList<>();
 
         try {
+            ValidationComposite validationComposite = SingletonFacade.getValidationComposite();
+            validationComposite.add(SingletonFacade.getAnnouncementValidator());
+
             User user = SingletonFacade.getUserController().findUserByEmail(userInput);
             SingletonFacade.getAnnouncementController().add(user, userInput);
         } catch (CustomException ex) {
             errors.add(ex.getMessage());
         }
+
+        validationComposite.removeAll();
 
         return errors;
     }
@@ -145,11 +162,16 @@ public class SingletonFacade {
         List<String> errors = new ArrayList<>();
 
         try {
+            ValidationComposite validationComposite = SingletonFacade.getValidationComposite();
+            validationComposite.add(SingletonFacade.getAnnouncementValidator());
+
             User user = SingletonFacade.getUserController().findUserByEmail(userInput);
             SingletonFacade.getAnnouncementController().delete(user, userInput);
         } catch (CustomException ex) {
             errors.add(ex.getMessage());
         }
+
+        validationComposite.removeAll();
 
         return errors;
     }
@@ -171,11 +193,17 @@ public class SingletonFacade {
         List<String> errors = new ArrayList<>();
 
         try {
+            ValidationComposite validationComposite = SingletonFacade.getValidationComposite();
+            // EmailValidator
+            validationComposite.add(SingletonFacade.getUserValidators().get(0));
+
             User user = SingletonFacade.getUserController().findUserByEmail(userInput);
             SingletonFacade.getUserController().update(user, userInput);
         } catch(CustomException ex) {
             errors.add(ex.getMessage());
         }
+
+        validationComposite.removeAll();
 
         return errors;
     }
