@@ -65,8 +65,7 @@ public class AnnouncementController {
 
         try {
             AnnouncementBinaryWriter announcementBinaryWriter = new AnnouncementBinaryWriter();
-            // TODO: criar função para remover todos os announcements de um user.
-//            announcementBinaryWriter.removeAllAnnouncements(userInput.get(UserInput.ANNOUNCEMENT));
+            announcementBinaryWriter.removeAll(userInput.get(UserInput.ANNOUNCEMENT));
         } catch (CustomException ex) {
         }
 

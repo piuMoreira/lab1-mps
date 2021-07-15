@@ -61,8 +61,7 @@ public class NewsController {
 
         try {
             NewsBinaryWriter newsBinaryWriter = new NewsBinaryWriter();
-            // TODO: criar função para remover todas as news de um usuário.
-//            newsBinaryWriter.removeAllNews(userInput.get(UserInput.EMAIL));
+            newsBinaryWriter.removeAll(userInput.get(UserInput.EMAIL));
         } catch (CustomException ex) {
         }
 

@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 import business.control.validation.exceptions.CustomException;
 import business.control.validation.exceptions.FileException;
 import business.control.validation.exceptions.InexistentNewsException;
+import business.model.Announcement;
 import business.model.News;
 
 
@@ -70,6 +71,20 @@ public class NewsBinaryWriter extends BinaryWriter {
     @Override
     public void update(Object news, Object ob) throws CustomException {
         //
+    }
+    
+    public void removeAll(Object news) throws FileException {
+    	News concreteNews = (News) news;
+    	
+		List<String> filtered;
+		try {
+			
+			filtered = Files.lines(filename).filter(x -> !x.contains(concreteNews.getCreatedBy().getEmail()))
+					.collect(Collectors.toList());
+			Files.write(filename, filtered, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING);
+		} catch (IOException e) {
+			throw new FileException("Não foi possível alterar o arquivo.", e);
+		}
     }
 
 
