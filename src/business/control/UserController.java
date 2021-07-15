@@ -6,7 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 import business.control.memento.UserCaretaker;
-import business.control.validation.ValidationComposite;
+import business.control.notification.Notification;
+import business.control.notification.NotificationContext;
 import business.control.validation.exceptions.FileException;
 import business.control.validation.exceptions.InexistentUserException;
 import business.util.helpers.UserInput;
@@ -20,11 +21,11 @@ import infra.factory.UserBinaryWriter;
 
 public class UserController {
 
-    private ValidationComposite validation;
+    private NotificationContext validation;
     private List<User> users;
     private BinaryWriter binaryWriterFactory;
 
-    public UserController(ValidationComposite validation) {
+    public UserController(NotificationContext validation) {
         this.validation = validation;
         this.users = new ArrayList<>();
         try {
@@ -34,15 +35,10 @@ public class UserController {
 		}
     }
 
-    public List<String> add (Map<UserInput, String> userInput) {
+    public List<Notification> add (Map<UserInput, String> userInput) {
 
-        List<String> errors = new ArrayList<>();
 
-        try {
-            this.validation.validate(userInput);
-        } catch (CustomException ex) {
-            errors.add(ex.getMessage());
-        }
+        this.validation.validate(userInput);
 
         try {
             User user = new User(userInput.get(UserInput.NAME), userInput.get(UserInput.EMAIL), userInput.get(UserInput.PASSWORD));
@@ -50,29 +46,21 @@ public class UserController {
 
             binaryWriterFactory.write(this.users);
         } catch (CustomException ex) {
-            errors.add(ex.getMessage());
         }
 
-        return errors;
+        return validation.getNotifications();
     }
 
-    public List<String> delete (Map<UserInput, String> userInput) {
-        List<String> errors = new ArrayList<>();
+    public List<Notification> delete (Map<UserInput, String> userInput) {
 
-        try {
-            EmailValidator emailValidator = new EmailValidator();
-            emailValidator.validate(userInput);
-        } catch (CustomException ex) {
-            errors.add(ex.getMessage());
-        }
+        this.validation.validate(userInput);
 
         try {
             binaryWriterFactory.remove(userInput.get(UserInput.EMAIL));
         } catch (CustomException ex) {
-            errors.add(ex.getMessage());
         }
 
-        return errors;
+        return validation.getNotifications();
     }
 
     public User findUserByEmail (Map<UserInput, String> userInput) throws FileException, InexistentUserException {
@@ -81,15 +69,9 @@ public class UserController {
         return dataAccess.findUserByEmail(userInput.get(UserInput.EMAIL));
     }
 
-    public List<String> update (User user, Map<UserInput, String> userInput) {
-        List<String> errors = new ArrayList<>();
+    public List<Notification> update (User user, Map<UserInput, String> userInput) {
 
-        try {
-            EmailValidator emailValidator = new EmailValidator();
-            emailValidator.validate(userInput);
-        } catch (CustomException ex) {
-            errors.add(ex.getMessage());
-        }
+        this.validation.validate(userInput);
 
         try {
             UserCaretaker userCaretaker = new UserCaretaker(user);
@@ -97,14 +79,12 @@ public class UserController {
 
             binaryWriterFactory.update(user.getName(), userInput.get(UserInput.EMAIL));
         } catch (CustomException ex) {
-            errors.add(ex.getMessage());
         }
 
-        return errors;
+        return validation.getNotifications();
     }
 
-    public List<String> undo (User user) {
-        List<String> errors = new ArrayList<>();
+    public List<Notification> undo (User user) {
 
         try {
             UserCaretaker userCaretaker = new UserCaretaker(user);
@@ -112,10 +92,9 @@ public class UserController {
 
             binaryWriterFactory.update(user.getName(), user.getEmail());
         } catch (CustomException ex) {
-            errors.add(ex.getMessage());
         }
 
-        return errors;
+        return validation.getNotifications();
     }
 
 }

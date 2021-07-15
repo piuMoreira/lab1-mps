@@ -1,5 +1,7 @@
 package business.control;
 
+import business.control.notification.Notification;
+import business.control.notification.NotificationContext;
 import business.control.validation.*;
 import business.control.validation.exceptions.CustomException;
 import business.model.User;
@@ -32,7 +34,7 @@ public class SingletonFacade {
 
     public static final AnnouncementValidator announcementValidator = new AnnouncementValidator();
 
-    public static final ValidationComposite validationComposite = new ValidationComposite();
+    public static final NotificationContext validationComposite = new NotificationContext();
 
     public static final UserController userController = new UserController(validationComposite);
     public static final NewsController newsController = new NewsController(validationComposite);
@@ -63,13 +65,13 @@ public class SingletonFacade {
         return announcementValidator;
     }
 
-    public static synchronized ValidationComposite getValidationComposite() {
+    public static synchronized NotificationContext getValidationComposite() {
         return validationComposite;
     }
 
-    public List<String> createUser(Map<UserInput, String> userInput) {
+    public List<Notification> createUser(Map<UserInput, String> userInput) {
 
-        ValidationComposite validationComposite = SingletonFacade.getValidationComposite();
+        NotificationContext validationComposite = SingletonFacade.getValidationComposite();
 
         for (Validator validator: SingletonFacade.getUserValidators()) {
             validationComposite.add(validator);
@@ -77,133 +79,126 @@ public class SingletonFacade {
 
         UserController userController = SingletonFacade.getUserController();
 
-        List<String> errors = new ArrayList<>();
+        List<Notification> errors = new ArrayList<>();
         errors.addAll(userController.add(userInput));
 
-        validationComposite.removeAll();
+        validationComposite.removeAllVAlidator();
 
         return errors;
     }
 
-    public List<String> deleteUser (Map<UserInput, String> userInput) {
+    public List<Notification> deleteUser (Map<UserInput, String> userInput) {
         UserController userController = SingletonFacade.getUserController();
         NewsController newsController = SingletonFacade.getNewsController();
         AnnouncementController announcementController = SingletonFacade.getAnnouncementController();
 
-        ValidationComposite validationComposite = SingletonFacade.getValidationComposite();
+        NotificationContext validationComposite = SingletonFacade.getValidationComposite();
         // EmailValidator
         validationComposite.add(SingletonFacade.getUserValidators().get(0));
 
-        List<String> errors = new ArrayList<>();
+        List<Notification> errors = new ArrayList<>();
         errors.addAll( userController.delete(userInput) );
         errors.addAll( newsController.deleteAll(userInput) );
         errors.addAll( announcementController.deleteAll(userInput) );
 
-        validationComposite.removeAll();
+        validationComposite.removeAllVAlidator();
 
         return errors;
     }
 
-    public List<String> createNews(Map<UserInput, String> userInput) {
-        List<String> errors = new ArrayList<>();
+    public List<Notification> createNews(Map<UserInput, String> userInput) {
+        List<Notification> errors = new ArrayList<>();
 
         try {
-            ValidationComposite validationComposite = SingletonFacade.getValidationComposite();
+            NotificationContext validationComposite = SingletonFacade.getValidationComposite();
             validationComposite.add(SingletonFacade.getNewsValidator());
 
             User user = SingletonFacade.getUserController().findUserByEmail(userInput);
             errors.addAll(SingletonFacade.getNewsController().add(user, userInput));
         } catch (CustomException ex) {
-            errors.add(ex.getMessage());
         }
 
-        validationComposite.removeAll();
+        validationComposite.removeAllVAlidator();
 
         return errors;
     }
 
-    public List<String> deleteNews(Map<UserInput, String> userInput) {
-        List<String> errors = new ArrayList<>();
+    public List<Notification> deleteNews(Map<UserInput, String> userInput) {
+        List<Notification> errors = new ArrayList<>();
 
         try {
-            ValidationComposite validationComposite = SingletonFacade.getValidationComposite();
+            NotificationContext validationComposite = SingletonFacade.getValidationComposite();
             validationComposite.add(SingletonFacade.getNewsValidator());
 
             User user = SingletonFacade.getUserController().findUserByEmail(userInput);
-            SingletonFacade.getNewsController().delete(user, userInput);
+            errors.addAll(SingletonFacade.getNewsController().delete(user, userInput));
         } catch (CustomException ex) {
-            errors.add(ex.getMessage());
         }
 
-        validationComposite.removeAll();
-
+        validationComposite.removeAllVAlidator();
         return errors;
     }
 
-    public List<String> createAnnouncement(Map<UserInput, String> userInput) {
-        List<String> errors = new ArrayList<>();
+    public List<Notification> createAnnouncement(Map<UserInput, String> userInput) {
+        List<Notification> errors = new ArrayList<>();
 
         try {
-            ValidationComposite validationComposite = SingletonFacade.getValidationComposite();
+            NotificationContext validationComposite = SingletonFacade.getValidationComposite();
             validationComposite.add(SingletonFacade.getAnnouncementValidator());
 
             User user = SingletonFacade.getUserController().findUserByEmail(userInput);
-            SingletonFacade.getAnnouncementController().add(user, userInput);
+            errors.addAll(SingletonFacade.getAnnouncementController().add(user, userInput));
         } catch (CustomException ex) {
-            errors.add(ex.getMessage());
         }
 
-        validationComposite.removeAll();
+        validationComposite.removeAllVAlidator();
 
         return errors;
     }
 
-    public List<String> deleteAnnouncement(Map<UserInput, String> userInput) {
-        List<String> errors = new ArrayList<>();
+    public List<Notification> deleteAnnouncement(Map<UserInput, String> userInput) {
+        List<Notification> errors = new ArrayList<>();
 
         try {
-            ValidationComposite validationComposite = SingletonFacade.getValidationComposite();
+            NotificationContext validationComposite = SingletonFacade.getValidationComposite();
             validationComposite.add(SingletonFacade.getAnnouncementValidator());
 
             User user = SingletonFacade.getUserController().findUserByEmail(userInput);
-            SingletonFacade.getAnnouncementController().delete(user, userInput);
+            errors.addAll(SingletonFacade.getAnnouncementController().delete(user, userInput));
         } catch (CustomException ex) {
-            errors.add(ex.getMessage());
         }
 
-        validationComposite.removeAll();
+        validationComposite.removeAllVAlidator();
 
         return errors;
     }
 
-    public List<String> undoUserUpdate(Map<UserInput, String> userInput) {
-        List<String> errors = new ArrayList<>();
+    public List<Notification> undoUserUpdate(Map<UserInput, String> userInput) {
+        List<Notification> errors = new ArrayList<>();
 
         try {
             User user = SingletonFacade.getUserController().findUserByEmail(userInput);
-            SingletonFacade.getUserController().undo(user);
+            errors.addAll(SingletonFacade.getUserController().undo(user));
         } catch(CustomException ex) {
-            errors.add(ex.getMessage());
         }
 
         return errors;
     }
 
-    public List<String> updateUser(Map<UserInput, String> userInput) {
-        List<String> errors = new ArrayList<>();
+    public List<Notification> updateUser(Map<UserInput, String> userInput) {
+        List<Notification> errors = new ArrayList<>();
 
         try {
-            ValidationComposite validationComposite = SingletonFacade.getValidationComposite();
+            NotificationContext validationComposite = SingletonFacade.getValidationComposite();
             // EmailValidator
             validationComposite.add(SingletonFacade.getUserValidators().get(0));
 
             User user = SingletonFacade.getUserController().findUserByEmail(userInput);
-            SingletonFacade.getUserController().update(user, userInput);
+            errors.addAll(SingletonFacade.getUserController().update(user, userInput));
         } catch(CustomException ex) {
-            errors.add(ex.getMessage());
         }
 
-        validationComposite.removeAll();
+        validationComposite.removeAllVAlidator();
 
         return errors;
     }

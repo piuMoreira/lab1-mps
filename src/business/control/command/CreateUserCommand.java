@@ -2,6 +2,7 @@ package business.control.command;
 
 import business.control.Command;
 import business.control.SingletonFacade;
+import business.control.notification.Notification;
 import business.util.helpers.UserInput;
 
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ public class CreateUserCommand implements Command {
 	}
 
 	@Override
-	public List<String> execute() {
+	public List<Notification> execute() {
         return this.facade.createUser(this.userInput);
 	}
 

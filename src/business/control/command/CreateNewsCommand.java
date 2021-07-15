@@ -6,6 +6,7 @@ import java.util.Map;
 
 import business.control.Command;
 import business.control.SingletonFacade;
+import business.control.notification.Notification;
 import business.control.validation.exceptions.CustomException;
 import business.control.validation.exceptions.FileException;
 import business.control.validation.exceptions.InexistentUserException;
@@ -23,7 +24,7 @@ public class CreateNewsCommand implements Command {
 	}
 
 	@Override
-	public List<String> execute() {
+	public List<Notification> execute() {
 		return this.facade.createNews(this.userInput);
 	}
 

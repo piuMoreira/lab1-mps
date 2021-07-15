@@ -6,6 +6,7 @@ import java.util.Map;
 
 import business.control.Command;
 import business.control.SingletonFacade;
+import business.control.notification.Notification;
 import business.util.helpers.UserInput;
 
 public class DeleteUserCommand implements Command {
@@ -19,7 +20,7 @@ public class DeleteUserCommand implements Command {
 	}
 
 	@Override
-	public List<String> execute() {
+	public List<Notification> execute() {
         return this.facade.deleteUser(this.userInput);
 	}
 

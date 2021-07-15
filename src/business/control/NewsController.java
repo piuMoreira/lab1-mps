@@ -5,10 +5,11 @@ import java.util.List;
 import java.util.Map;
 
 import business.control.validation.NewsValidator;
-import business.control.validation.ValidationComposite;
 import business.util.helpers.UserInput;
 import infra.factory.BinaryWriter;
 import infra.factory.NewsBinaryWriter;
+import business.control.notification.Notification;
+import business.control.notification.NotificationContext;
 import business.control.validation.EmailValidator;
 import business.control.validation.Validator;
 import business.control.validation.exceptions.CustomException;
@@ -17,10 +18,10 @@ import business.model.News;
 import business.model.User;
 
 public class NewsController {
-    private ValidationComposite validation;
+    private NotificationContext validation;
     private BinaryWriter binaryWriterFactory;
     
-    public NewsController(ValidationComposite validation) {
+    public NewsController(NotificationContext validation) {
         this.validation = validation;
         try {
 			binaryWriterFactory = new NewsBinaryWriter();
@@ -29,61 +30,42 @@ public class NewsController {
 		}
     }
 
-    public List<String> add(User user, Map<UserInput, String> userInput) {
-        List<String> errors = new ArrayList<>();
+    public List<Notification> add(User user, Map<UserInput, String> userInput) {
 
-        try {
-            this.validation.validate(userInput);
-        } catch (CustomException ex) {
-            errors.add(ex.getMessage());
-        }
+        this.validation.validate(userInput);
 
         try {
             News news = new News(user, userInput.get(UserInput.NEWS));
             binaryWriterFactory.write(news);
         } catch (CustomException ex) {
-            errors.add(ex.getMessage());
         }
 
-        return errors;
+        return validation.getNotifications();
     }
 
-    public List<String> delete(User user, Map<UserInput, String> userInput) {
-        List<String> errors = new ArrayList<>();
+    public List<Notification> delete(User user, Map<UserInput, String> userInput) {
 
-        try {
-            this.validation.validate(userInput);
-        } catch (CustomException ex) {
-            errors.add(ex.getMessage());
-        }
+        this.validation.validate(userInput);
 
         try {
             binaryWriterFactory.remove(userInput.get(UserInput.NEWS));
         } catch (CustomException ex) {
-            errors.add(ex.getMessage());
         }
 
-        return errors;
+        return validation.getNotifications();
     }
 
-    public List<String> deleteAll(Map<UserInput, String> userInput) {
-        List<String> errors = new ArrayList<>();
+    public List<Notification> deleteAll(Map<UserInput, String> userInput) {
 
-        try {
-            EmailValidator emailValidator = new EmailValidator();
-            emailValidator.validate(userInput);
-        } catch (CustomException ex) {
-            errors.add(ex.getMessage());
-        }
+        this.validation.validate(userInput);
 
         try {
             NewsBinaryWriter newsBinaryWriter = new NewsBinaryWriter();
             // TODO: criar função para remover todas as news de um usuário.
 //            newsBinaryWriter.removeAllNews(userInput.get(UserInput.EMAIL));
         } catch (CustomException ex) {
-            errors.add(ex.getMessage());
         }
 
-        return errors;
+        return validation.getNotifications();
     }
 }
